@@ -34,7 +34,7 @@ public class ActModelController extends BaseController {
 	/**
 	 * 流程模型列表
 	 */
-	@RequiresPermissions("act:model:edit")
+	@RequiresPermissions("act:model:list")
 	@RequestMapping(value = { "list", "" })
 	public String modelList(String category, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
@@ -52,7 +52,7 @@ public class ActModelController extends BaseController {
 	/**
 	 * 创建模型
 	 */
-	@RequiresPermissions("act:model:edit")
+	@RequiresPermissions("act:model:create")
 	@RequestMapping(value = "create", method = RequestMethod.GET)
 	public String create(Model model) {
 		return "modules/act/actModelCreate";
@@ -61,7 +61,7 @@ public class ActModelController extends BaseController {
 	/**
 	 * 创建模型
 	 */
-	@RequiresPermissions("act:model:edit")
+	@RequiresPermissions("act:model:create")
 	@RequestMapping(value = "create", method = RequestMethod.POST)
 	public void create(String name, String key, String description,
 			String category, HttpServletRequest request,
@@ -81,7 +81,7 @@ public class ActModelController extends BaseController {
 	/**
 	 * 根据Model部署流程
 	 */
-	@RequiresPermissions("act:model:edit")
+	@RequiresPermissions("act:model:deploy")
 	@RequestMapping(value = "deploy")
 	public String deploy(String id, RedirectAttributes redirectAttributes) {
 		String message = actModelService.deploy(id);
@@ -92,7 +92,7 @@ public class ActModelController extends BaseController {
 	/**
 	 * 导出model的xml文件
 	 */
-	@RequiresPermissions("act:model:edit")
+	@RequiresPermissions("act:model:export")
 	@RequestMapping(value = "export")
 	public void export(String id, HttpServletResponse response) {
 		actModelService.export(id, response);
@@ -117,11 +117,27 @@ public class ActModelController extends BaseController {
 	 * @param redirectAttributes
 	 * @return
 	 */
-	@RequiresPermissions("act:model:edit")
+	@RequiresPermissions("act:model:del")
 	@RequestMapping(value = "delete")
 	public String delete(String id, RedirectAttributes redirectAttributes) {
 		actModelService.delete(id);
 		redirectAttributes.addFlashAttribute("message", "删除成功，模型ID=" + id);
+		return "redirect:" + adminPath + "/act/model";
+	}
+	/**
+	 * 删除Model
+	 * @param id
+	 * @param redirectAttributes
+	 * @return
+	 */
+	@RequiresPermissions("act:model:del")
+	@RequestMapping(value = "deleteAll")
+	public String deleteAll(String ids, RedirectAttributes redirectAttributes) {
+		String idArray[] =ids.split(",");
+		for(String id : idArray){
+			actModelService.delete(id);
+		}
+		redirectAttributes.addFlashAttribute("message", "删除成功");
 		return "redirect:" + adminPath + "/act/model";
 	}
 }

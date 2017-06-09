@@ -47,7 +47,7 @@
 	<div class="wrapper wrapper-content">
 	<div class="ibox">
 	<div class="ibox-title">
-		<h5>请假申请 </h5>
+		<h5>当前步骤--[${leave.act.taskName}] </h5>
 		<div class="ibox-tools">
 			<a class="collapse-link">
 				<i class="fa fa-chevron-up"></i>
@@ -67,8 +67,14 @@
 		</div>
 	</div>
 	<div class="ibox-content">
-	<form:form id="inputForm" modelAttribute="leave" action="${ctx}/oa/leave/save" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="leave" action="${ctx}/oa/leave/saveAudit" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
+		<form:hidden path="act.taskId"/>
+		<form:hidden path="act.taskName"/>
+		<form:hidden path="act.taskDefKey"/>
+		<form:hidden path="act.procInsId"/>
+		<form:hidden path="act.procDefId"/>
+		<form:hidden id="flag" path="act.flag"/>
 		<sys:message content="${message}"/>
 		<div class="control-group">
 			<label class="control-label">请假类型：</label>
@@ -81,13 +87,15 @@
 		<div class="control-group">
 			<label class="control-label">开始时间：</label>
 			<div class="controls">
-				<input id="startTime" name="startTime" type="text" readonly="readonly" maxlength="20" class="laydate-icon form-control layer-date required"/>
+				<input id="startTime" name="startTime" type="text" readonly="readonly" maxlength="20" class="laydate-icon form-control layer-date required"
+				value="<fmt:formatDate value="${leave.startTime}" pattern="yyyy-MM-dd"/>"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">结束时间：</label>
 			<div class="controls">
-				<input id="endTime" name="endTime" type="text" readonly="readonly" maxlength="20" class="laydate-icon form-control layer-date required"/>
+				<input id="endTime" name="endTime" type="text" readonly="readonly" maxlength="20" class="laydate-icon form-control layer-date required"
+				value="<fmt:formatDate value="${leave.endTime}" pattern="yyyy-MM-dd"/>"/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -96,10 +104,22 @@
 				<form:textarea path="reason" class="form-control required" rows="5" maxlength="20"/>
 			</div>
 		</div>
+		<div class="control-group">
+			<label class="control-label">审批意见：</label>
+			<div class="controls">
+				<form:textarea path="act.comment" class="form-control required" rows="5" maxlength="20"/>
+			</div>
+		</div>
+	
 		<div class="form-actions">
-			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
+				<c:if test="${leave.act.taskDefKey ne 'apply_end'}">
+					<input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
+					<input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
+				</c:if>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
+		<act:flowChart procInsId="${leave.act.procInsId}"/>
+		<act:histoicFlow procInsId="${leave.act.procInsId}"/>
 	</form:form>
 </div>
 	</div>

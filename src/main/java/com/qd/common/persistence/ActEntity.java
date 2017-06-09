@@ -14,24 +14,23 @@ import com.qd.modules.act.entity.Act;
  * @author Harry
  * @version 2013-05-28
  */
-public abstract class ActEntity<T> extends DataEntity<T> implements
-		Serializable {
+public abstract class ActEntity<T> extends DataEntity<T> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	protected Act act; // 流程任务对象
+	protected Act act; 		// 流程任务对象
 
 	public ActEntity() {
 		super();
 	}
-
+	
 	public ActEntity(String id) {
 		super(id);
 	}
-
+	
 	@JsonIgnore
 	public Act getAct() {
-		if (act == null) {
+		if (act == null){
 			act = new Act();
 		}
 		return act;
@@ -43,7 +42,6 @@ public abstract class ActEntity<T> extends DataEntity<T> implements
 
 	/**
 	 * 获取流程实例ID
-	 * 
 	 * @return
 	 */
 	public String getProcInsId() {
@@ -52,7 +50,6 @@ public abstract class ActEntity<T> extends DataEntity<T> implements
 
 	/**
 	 * 设置流程实例ID
-	 * 
 	 * @param procInsId
 	 */
 	public void setProcInsId(String procInsId) {

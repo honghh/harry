@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ include file="/WEB-INF/views/include/taglib.jsp"%>
+<%@ include file="/WEB-INF/views/include/taglib.jsp"%>%>
 <html>
 <head>
 	<title>请假申请</title>
@@ -47,7 +47,7 @@
 	<div class="wrapper wrapper-content">
 	<div class="ibox">
 	<div class="ibox-title">
-		<h5>请假申请 </h5>
+		<h5>当前步骤--[${leave.act.taskName}] </h5>
 		<div class="ibox-tools">
 			<a class="collapse-link">
 				<i class="fa fa-chevron-up"></i>
@@ -67,9 +67,9 @@
 		</div>
 	</div>
 	<div class="ibox-content">
-	<form:form id="inputForm" modelAttribute="leave" action="${ctx}/oa/leave/save" method="post" class="form-horizontal">
-		<form:hidden path="id"/>
-		<sys:message content="${message}"/>
+	<form:form id="inputForm" modelAttribute="leave" action="${ctx}/oa/leave/saveAudit" method="post" class="form-horizontal">
+			<fieldset>
+			<legend>${leave.act.taskName}</legend>
 		<div class="control-group">
 			<label class="control-label">请假类型：</label>
 			<div class="controls">
@@ -81,13 +81,15 @@
 		<div class="control-group">
 			<label class="control-label">开始时间：</label>
 			<div class="controls">
-				<input id="startTime" name="startTime" type="text" readonly="readonly" maxlength="20" class="laydate-icon form-control layer-date required"/>
+				<input id="startTime" name="startTime" type="text" readonly="readonly" maxlength="20" class="laydate-icon form-control layer-date required"
+				value="<fmt:formatDate value="${leave.startTime}" pattern="yyyy-MM-dd"/>"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">结束时间：</label>
 			<div class="controls">
-				<input id="endTime" name="endTime" type="text" readonly="readonly" maxlength="20" class="laydate-icon form-control layer-date required"/>
+				<input id="endTime" name="endTime" type="text" readonly="readonly" maxlength="20" class="laydate-icon form-control layer-date required"
+				value="<fmt:formatDate value="${leave.endTime}" pattern="yyyy-MM-dd"/>"/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -96,10 +98,14 @@
 				<form:textarea path="reason" class="form-control required" rows="5" maxlength="20"/>
 			</div>
 		</div>
+	
 		<div class="form-actions">
-			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
+		<act:flowChart procInsId="${leave.act.procInsId}"/>
+		<act:histoicFlow procInsId="${leave.act.procInsId}"/>
+		
+			</fieldset>
 	</form:form>
 </div>
 	</div>

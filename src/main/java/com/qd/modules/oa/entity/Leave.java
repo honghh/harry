@@ -15,7 +15,7 @@ import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.collect.Lists;
-import com.qd.common.persistence.DataEntity;
+import com.qd.common.persistence.ActEntity;
 import com.qd.common.utils.StringUtils;
 import com.qd.modules.sys.entity.User;
 import com.qd.modules.sys.utils.DictUtils;
@@ -26,22 +26,23 @@ import com.qd.modules.sys.utils.DictUtils;
  * @author liuj
  * @version 2013-04-05
  */
-public class Leave extends DataEntity<Leave> {
-
+public class Leave extends ActEntity<Leave> {
 	private static final long serialVersionUID = 1L;
-	private String reason; // 请假原因
+	private String reason; 	// 请假原因
 	private String processInstanceId; // 流程实例编号
-	private Date startTime; // 请假开始日期
-	private Date endTime; // 请假结束日期
-	private Date realityStartTime; // 实际开始时间
-	private Date realityEndTime; // 实际结束时间
-	private String leaveType; // 假种
-
+	private Date startTime;	// 请假开始日期
+	private Date endTime;	// 请假结束日期
+	private Date realityStartTime;	// 实际开始时间
+	private Date realityEndTime;	// 实际结束时间
+	private String leaveType;	// 假种
+	
 	private String ids;
 	private Date createDateStart;
 	private Date createDateEnd;
+	
+	private String comment;
 
-	// -- 临时属性 --//
+	//-- 临时属性 --//
 	// 流程任务
 	private Task task;
 	private Map<String, Object> variables;
@@ -56,10 +57,10 @@ public class Leave extends DataEntity<Leave> {
 		super();
 	}
 
-	public Leave(String id) {
+	public Leave(String id){
 		super();
 	}
-
+	
 	public String getLeaveType() {
 		return leaveType;
 	}
@@ -67,12 +68,12 @@ public class Leave extends DataEntity<Leave> {
 	public void setLeaveType(String leaveType) {
 		this.leaveType = leaveType;
 	}
-
+	
 	public String getLeaveTypeDictLabel() {
 		return DictUtils.getDictLabel(leaveType, "oa_leave_type", "");
 	}
-
-	@Length(min = 1, max = 255)
+	
+	@Length(min=1, max=255)
 	public String getReason() {
 		return reason;
 	}
@@ -124,11 +125,11 @@ public class Leave extends DataEntity<Leave> {
 	public void setRealityEndTime(Date realityEndTime) {
 		this.realityEndTime = realityEndTime;
 	}
-
+	
 	public User getUser() {
 		return createBy;
 	}
-
+	
 	public void setUser(User user) {
 		this.createBy = user;
 	}
@@ -161,8 +162,7 @@ public class Leave extends DataEntity<Leave> {
 		return historicProcessInstance;
 	}
 
-	public void setHistoricProcessInstance(
-			HistoricProcessInstance historicProcessInstance) {
+	public void setHistoricProcessInstance(HistoricProcessInstance historicProcessInstance) {
 		this.historicProcessInstance = historicProcessInstance;
 	}
 
@@ -176,13 +176,12 @@ public class Leave extends DataEntity<Leave> {
 
 	public String getIds() {
 		List<String> idList = Lists.newArrayList();
-		if (StringUtils.isNotBlank(ids)) {
-			String ss = ids.trim().replace("　", ",").replace(" ", ",")
-					.replace("，", ",").replace("'", "");
-			for (String s : ss.split(",")) {
-				// if(s.matches("\\d*")) {
-				idList.add("'" + s + "'");
-				// }
+		if (StringUtils.isNotBlank(ids)){
+			String ss = ids.trim().replace("　", ",").replace(" ",",").replace("，", ",").replace("'", "");
+			for(String s : ss.split(",")) {
+//				if(s.matches("\\d*")) {
+					idList.add("'"+s+"'");
+//				}
 			}
 		}
 		return StringUtils.join(idList, ",");
@@ -208,4 +207,14 @@ public class Leave extends DataEntity<Leave> {
 		this.createDateEnd = createDateEnd;
 	}
 
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+	
 }
+
+

@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,7 +50,6 @@ public class TestAuditController extends BaseController {
 		return testAudit;
 	}
 
-	@RequiresPermissions("oa:testAudit:view")
 	@RequestMapping(value = { "list", "" })
 	public String list(TestAudit testAudit, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
@@ -72,7 +70,6 @@ public class TestAuditController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequiresPermissions("oa:testAudit:view")
 	@RequestMapping(value = "form")
 	public String form(TestAudit testAudit, Model model) {
 
@@ -129,7 +126,6 @@ public class TestAuditController extends BaseController {
 	 * @param redirectAttributes
 	 * @return
 	 */
-	@RequiresPermissions("oa:testAudit:edit")
 	@RequestMapping(value = "save")
 	public String save(TestAudit testAudit, Model model,
 			RedirectAttributes redirectAttributes) {
@@ -149,7 +145,6 @@ public class TestAuditController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequiresPermissions("oa:testAudit:edit")
 	@RequestMapping(value = "saveAudit")
 	public String saveAudit(TestAudit testAudit, Model model) {
 		if (StringUtils.isBlank(testAudit.getAct().getFlag())
@@ -168,7 +163,6 @@ public class TestAuditController extends BaseController {
 	 * @param redirectAttributes
 	 * @return
 	 */
-	@RequiresPermissions("oa:testAudit:edit")
 	@RequestMapping(value = "delete")
 	public String delete(TestAudit testAudit,
 			RedirectAttributes redirectAttributes) {

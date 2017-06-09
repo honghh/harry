@@ -5,8 +5,18 @@
 	<title>部署流程 - 流程管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
+	var validateForm;
+	function doSubmit(){//回调函数，在编辑和保存动作时，供openDialog调用提交表单。
+	  if(validateForm.form()){
+		  $("#inputForm").submit();
+		  return true;
+	  }
+
+	  return false;
+	}
 		$(document).ready(function(){
-			$("#inputForm").validate({
+			top.$.jBox.tip.mess = null;
+			validateForm = $("#inputForm").validate({
 				submitHandler: function(form){
 					loading('正在提交，请稍等...');
 					form.submit();
@@ -25,17 +35,13 @@
 	</script>
 </head>
 <body>
-	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/act/process/">流程管理</a></li>
-		<li class="active"><a href="${ctx}/act/process/deploy/">部署流程</a></li>
-		<li><a href="${ctx}/act/process/running/">运行中的流程</a></li>
-	</ul><br/>
+	<br/>
 	<sys:message content="${message}"/>
 	<form id="inputForm" action="${ctx}/act/process/deploy" method="post" enctype="multipart/form-data" class="form-horizontal">
 		<div class="control-group">
 			<label class="control-label">流程分类：</label>
 			<div class="controls">
-				<select id="category" name="category" class="required input-medium">
+				<select id="category" name="category" class="required form-control">
 					<c:forEach items="${fns:getDictList('act_category')}" var="dict">
 						<option value="${dict.value}">${dict.label}</option>
 					</c:forEach>
@@ -45,13 +51,9 @@
 		<div class="control-group">
 			<label class="control-label">流程文件：</label>
 			<div class="controls">
-				<input type="file" id="file" name="file" class="required"/>
+				<input type="file" id="file" name="file" class="required form-control"/>
 				<span class="help-inline">支持文件格式：zip、bar、bpmn、bpmn20.xml</span>
 			</div>
-		</div>
-		<div class="form-actions">
-			<input id="btnSubmit" class="btn btn-primary" type="submit" value="提 交"/>
-			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form>
 </body>

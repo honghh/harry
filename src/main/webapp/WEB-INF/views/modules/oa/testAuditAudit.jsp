@@ -5,9 +5,18 @@
 	<title>审批管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
+		var validateForm;
+		function doSubmit(){//回调函数，在编辑和保存动作时，供openDialog调用提交表单。
+		  if(validateForm.form()){
+			  $("#inputForm").submit();
+			  return true;
+		  }
+	
+		  return false;
+		}
 		$(document).ready(function() {
 			$("#name").focus();
-			$("#inputForm").validate({
+			validateForm = $("#inputForm").validate({
 				submitHandler: function(form){
 					loading('正在提交，请稍等...');
 					form.submit();
@@ -25,11 +34,30 @@
 		});
 	</script>
 </head>
-<body>
-	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/oa/testAudit/">审批列表</a></li>
-		<li class="active"><a href="#"><shiro:hasPermission name="oa:testAudit:edit">${testAudit.act.taskName}</shiro:hasPermission><shiro:lacksPermission name="oa:testAudit:edit">查看</shiro:lacksPermission></a></li>
-	</ul>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content">
+	<div class="ibox">
+	<div class="ibox-title">
+		<h5><shiro:hasPermission name="oa:testAudit:edit">${testAudit.act.taskName}</shiro:hasPermission><shiro:lacksPermission name="oa:testAudit:edit">查看</shiro:lacksPermission> </h5>
+		<div class="ibox-tools">
+			<a class="collapse-link">
+				<i class="fa fa-chevron-up"></i>
+			</a>
+			<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+				<i class="fa fa-wrench"></i>
+			</a>
+			<ul class="dropdown-menu dropdown-user">
+				<li><a href="#">选项1</a>
+				</li>
+				<li><a href="#">选项2</a>
+				</li>
+			</ul>
+			<a class="close-link">
+				<i class="fa fa-times"></i>
+			</a>
+		</div>
+	</div>
+	 <div class="ibox-content">
 	<form:form id="inputForm" modelAttribute="testAudit" action="${ctx}/oa/testAudit/saveAudit" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<form:hidden path="act.taskId"/>
@@ -41,7 +69,7 @@
 		<sys:message content="${message}"/>
 		<fieldset>
 			<legend>${testAudit.act.taskName}</legend>
-			<table class="table-form">
+			<table id="contentTable" class="table table-striped table-bordered table-hover table-condensed dataTables-example dataTable">
 				<tr>
 					<td class="tit">姓名</td><td>${testAudit.user.name}</td>
 					<td class="tit">部门</td><td>${testAudit.office.name}</td>
@@ -98,13 +126,12 @@
 				<tr>
 					<td class="tit">您的意见</td>
 					<td colspan="5">
-						<form:textarea path="act.comment" class="required" rows="5" maxlength="20" cssStyle="width:500px"/>
+						<form:textarea path="act.comment" class="form-control required" rows="5" maxlength="20"/>
 					</td>
 				</tr>
 			</table>
 		</fieldset>
 		<div class="form-actions">
-			<shiro:hasPermission name="oa:testAudit:edit">
 				<c:if test="${testAudit.act.taskDefKey eq 'apply_end'}">
 					<input id="btnSubmit" class="btn btn-primary" type="submit" value="兑 现" onclick="$('#flag').val('yes')"/>&nbsp;
 				</c:if>
@@ -112,10 +139,14 @@
 					<input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
 					<input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
 				</c:if>
-			</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
-		<act:histoicFlow procInsId="${testAudit.act.procInsId}"/>
+		<act:flowChart procInsId="${testAudit.act.procInsId}"/>
+		<act:histoicFlow procInsId="${testAudit.act.procInsId}" />
 	</form:form>
+	
+	</div>
+	</div>
+	</div>
 </body>
 </html>

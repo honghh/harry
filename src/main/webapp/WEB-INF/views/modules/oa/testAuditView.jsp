@@ -2,12 +2,21 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>审批管理</title>
+	<title>薪酬调整</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
+		var validateForm;
+		function doSubmit(){//回调函数，在编辑和保存动作时，供openDialog调用提交表单。
+		  if(validateForm.form()){
+			  $("#inputForm").submit();
+			  return true;
+		  }
+	
+		  return false;
+		}
 		$(document).ready(function() {
 			$("#name").focus();
-			$("#inputForm").validate({
+			validateForm = $("#inputForm").validate({
 				submitHandler: function(form){
 					loading('正在提交，请稍等...');
 					form.submit();
@@ -25,16 +34,33 @@
 		});
 	</script>
 </head>
-<body>
-	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/oa/testAudit/">审批列表</a></li>
-		<li class="active"><a href="${ctx}/oa/testAudit/form/?procInsId=${testAudit.procInsId}">审批详情</a></li>
-	</ul>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content">
+	<div class="ibox">
+	<div class="ibox-title">
+		<h5>薪酬调整详情</h5>
+		<div class="ibox-tools">
+			<a class="collapse-link">
+				<i class="fa fa-chevron-up"></i>
+			</a>
+			<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+				<i class="fa fa-wrench"></i>
+			</a>
+			<ul class="dropdown-menu dropdown-user">
+				<li><a href="#">选项1</a>
+				</li>
+				<li><a href="#">选项2</a>
+				</li>
+			</ul>
+			<a class="close-link">
+				<i class="fa fa-times"></i>
+			</a>
+		</div>
+	</div>
+	 <div class="ibox-content">
 	<form:form class="form-horizontal">
 		<sys:message content="${message}"/>
-		<fieldset>
-			<legend>审批详情</legend>
-			<table class="table-form">
+			<table class="table table-bordered  table-condensed dataTables-example dataTable no-footer">
 				<tr>
 					<td class="tit">姓名</td><td>${testAudit.user.name}</td>
 					<td class="tit">部门</td><td>${testAudit.office.name}</td>
@@ -89,11 +115,14 @@
 					</td>
 				</tr>
 			</table>
-		</fieldset>
-		<act:histoicFlow procInsId="${testAudit.act.procInsId}" />
 		<div class="form-actions">
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
+		<act:flowChart procInsId="${testAudit.act.procInsId}"/>
+		<act:histoicFlow procInsId="${testAudit.act.procInsId}" />
 	</form:form>
+	</div>
+	</div>
+	</div>
 </body>
 </html>
