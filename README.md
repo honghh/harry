@@ -100,7 +100,7 @@ jeeqd 提供了常用工具进行封装，包括日志工具、缓存工具、�
 
 ## 演示地址
 
-* <http://www.tech-qd.com/jeeqd>  &nbsp; 用户名：jeeqd &nbsp; 密码：admin
+* <http://www.tech-qd.com/jeeqd>  &nbsp; 用户名：admin &nbsp; 密码：admin
 
 ## 快速体验
 
@@ -109,7 +109,7 @@ jeeqd 提供了常用工具进行封装，包括日志工具、缓存工具、�
 3. 根据修改参数创建对应MySql或Oracle数据库用户和参数。
 4. 运行bin\init-db.bat脚本，即可导入表结构及演示数据(linux操作系统：在控制台中切换至项目根目录，运行命令：mvn antrun:run -Pinit-db)
 5. 运行bin\run-tomcat7.bat或bin\run-jetty.bat，启动Web服务器（第一次运行，需要下载依赖jar包，请耐心等待）。
-6. 最高管理员账号，用户名：thinkgem 密码：admin
+6. 最高管理员账号，用户名：admin 密码：admin
 
 ## 常见问题
 
@@ -123,7 +123,7 @@ jeeqd 提供了常用工具进行封装，包括日志工具、缓存工具、�
 
 ## 如何交流、反馈、参与贡献？
 
-* QQ Group：183865800 &nbsp; 209330483 &nbsp; 223507718 &nbsp; 苹果版QQ若不能加入请使用手机QQ最新版
+* QQ Group：183865800  苹果版QQ若不能加入请使用手机QQ最新版
 * E-mail：hong.hehe@tech-qd.com
 * GitHub：<https://github.com/jeeqd>
 * 开源中国：<http://git.oschina.net/jeeqd>
@@ -161,4 +161,3 @@ Hibernate性能上定不是问题。但对于大多数情况下，真正掌握Hi
 对于不同的数据库可通过dbName区分和修改各别的SQL片段即可。
 
 
-如果你仍然喜欢Hibernate，请点击[下载jeeqd Hibernate版本](https://github.com/jeeqd/tree/master_hibernate)。
