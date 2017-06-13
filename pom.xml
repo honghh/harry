@@ -44,6 +44,7 @@
 		<dozer.version>5.5.1</dozer.version>
 		<poi.version>3.9</poi.version>
 		<freemarker.version>2.3.20</freemarker.version>
+		<http.version>4.3.3</http.version>
 		
 		<!-- jdbc driver setting -->
 		<mysql.driver.version>5.1.30</mysql.driver.version>
@@ -201,13 +202,19 @@
 			<version>${mysql.driver.version}</version>
 			<scope>runtime</scope>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc14</artifactId>
 			<version>${oracle.driver.version}</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ojdbc14-10.2.0.4.0.jar</systemPath>
-		</dependency>
+		</dependency> -->
+<!--Oracle数据库驱动包，针对Oracle11.2的ojdbc14-10.2.0.4.0.jar -->
+         <dependency>  
+              <groupId>com.oracle</groupId>  
+              <artifactId>ojdbc14</artifactId>  
+              <version>${oracle.driver.version}</version>
+         </dependency>
 		<dependency>
 			<groupId>net.sourceforge.jtds</groupId>
 			<artifactId>jtds</artifactId>
@@ -550,8 +557,6 @@
 			<groupId>org.wltea</groupId>
 			<artifactId>analyzer</artifactId>
 			<version>2012_u6</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/analyzer-2012_u6.jar</systemPath>
 		</dependency>
 		<!-- GENERAL UTILS end -->
 		
@@ -560,94 +565,71 @@
 			<groupId>net.coobird</groupId>
 			<artifactId>thumbnailator</artifactId>
 			<version>0.4.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/thumbnailator-0.4.2.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.ckfinder</groupId>
 			<artifactId>apache-ant-zip</artifactId>
 			<version>2.3</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/apache-ant-zip-2.3.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.ckfinder</groupId>
 			<artifactId>ckfinder</artifactId>
 			<version>2.3</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ckfinder-2.3.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.ckfinder</groupId>
 			<artifactId>ckfinderplugin-fileeditor</artifactId>
 			<version>2.3</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ckfinderplugin-fileeditor-2.3.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.ckfinder</groupId>
 			<artifactId>ckfinderplugin-imageresize</artifactId>
 			<version>2.3</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ckfinderplugin-imageresize-2.3.jar</systemPath>
 		</dependency>
 		<!-- CKFinder end -->
 		
 		<!-- jeewx-api begin-->
 		<dependency>
-			<groupId>com.jeewx-api</groupId>
-			<artifactId>jeewx-api</artifactId>
-			<version>1.1</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/jeewx-api-1.1-SNAPSHOT.jar</systemPath>
+		    <groupId>com.jeewx-api</groupId>
+		    <artifactId>jeewx-api</artifactId>
+		    <version>1.1.0</version>
 		</dependency>
 		<!-- jeewx-api end-->
 		
 		<!-- json-lib begin-->
 		<dependency>
-			<groupId>com.json-lib</groupId>
-			<artifactId>json-lib</artifactId>
-			<version>2.1</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/json-lib-2.1-jdk15.jar</systemPath>
+		    <groupId>com.json-lib</groupId>
+		    <artifactId>json-lib</artifactId>
+		    <version>2.1.15</version>
 		</dependency>
 		<!-- json-lib end-->
 		
 		<!-- http begin-->
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents -->
 		<dependency>
-			<groupId>com.httpcore</groupId>
-			<artifactId>httpcore</artifactId>
-			<version>4.3.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/httpcore-4.3.2.jar</systemPath>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpcore</artifactId>
+		    <version>${http.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.httpclient</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.3.3</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/httpclient-4.3.3.jar</systemPath>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient</artifactId>
+		    <version>${http.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.httpclient-cache</groupId>
-			<artifactId>httpclient-cache</artifactId>
-			<version>4.3.3</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/httpclient-cache-4.3.3.jar</systemPath>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient-cache</artifactId>
+		    <version>${http.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.httpclient-win</groupId>
-			<artifactId>httpclient-win</artifactId>
-			<version>4.5.1</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/httpclient-win-4.5.1.jar</systemPath>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpmime</artifactId>
+		    <version>${http.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.httpmime</groupId>
-			<artifactId>httpmime</artifactId>
-			<version>4.3.3</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/httpmime-4.3.3.jar</systemPath>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient-win</artifactId>
+		    <version>${http.version}</version>
 		</dependency>
 		<!-- http end-->
 		
@@ -669,8 +651,6 @@
 			<groupId>bitwalker</groupId>
 			<artifactId>UserAgentUtils</artifactId>
 			<version>1.13</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/UserAgentUtils-1.13.jar</systemPath>
 		</dependency>
 		
 		<!-- 自定义jar依赖包
