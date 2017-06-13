@@ -27,6 +27,9 @@
 		<sitemesh.version>2.4.2</sitemesh.version>
 		<activiti.version>5.21.0</activiti.version>
 		
+		<!-- 引入 spring定时器 -->
+		<quartz.version>2.3.0</quartz.version>
+		
 		<!-- tools version setting -->
 		<slf4j.version>1.7.7</slf4j.version>
 		<commons-lang3.version>3.3.2</commons-lang3.version>
@@ -81,6 +84,12 @@
 	
 	<!-- 依赖项定义 -->
 	<dependencies>
+	<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz  *引入 spring定时器 -->
+		<dependency>
+		    <groupId>org.quartz-scheduler</groupId>
+		    <artifactId>quartz</artifactId>
+		    <version>${quartz.version}</version>
+		</dependency>
 	
 		<!-- SPRING begin -->
 		<dependency>

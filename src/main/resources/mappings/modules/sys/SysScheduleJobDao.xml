@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qd.modules.sys.dao.SysScheduleJobDao">
+    
+	<sql id="sysScheduleJobColumns">
+		a.id AS "id",
+		a.job_name AS "jobName",
+		a.job_group AS "jobGroup",
+		a.job_status AS "jobStatus",
+		a.cron_expression AS "cronExpression",
+		a.description AS "description",
+		a.bean_class AS "beanClass",
+		a.is_concurrent AS "isConcurrent",
+		a.spring_id AS "springId",
+		a.method_name AS "methodName",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="sysScheduleJobJoins">
+	</sql>
+    
+	<select id="get" resultType="SysScheduleJob">
+		SELECT 
+			<include refid="sysScheduleJobColumns"/>
+		FROM sys_schedule_job a
+		<include refid="sysScheduleJobJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="SysScheduleJob">
+		SELECT 
+			<include refid="sysScheduleJobColumns"/>
+		FROM sys_schedule_job a
+		<include refid="sysScheduleJobJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="jobName != null and jobName != ''">
+				AND a.job_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{jobName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{jobName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{jobName},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="SysScheduleJob">
+		SELECT 
+			<include refid="sysScheduleJobColumns"/>
+		FROM sys_schedule_job a
+		<include refid="sysScheduleJobJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO sys_schedule_job(
+			id,
+			job_name,
+			job_group,
+			job_status,
+			cron_expression,
+			description,
+			bean_class,
+			is_concurrent,
+			spring_id,
+			method_name,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{jobName},
+			#{jobGroup},
+			#{jobStatus},
+			#{cronExpression},
+			#{description},
+			#{beanClass},
+			#{isConcurrent},
+			#{springId},
+			#{methodName},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sys_schedule_job SET 	
+			job_name = #{jobName},
+			job_group = #{jobGroup},
+			job_status = #{jobStatus},
+			cron_expression = #{cronExpression},
+			description = #{description},
+			bean_class = #{beanClass},
+			is_concurrent = #{isConcurrent},
+			spring_id = #{springId},
+			method_name = #{methodName},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE sys_schedule_job SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
