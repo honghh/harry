@@ -9,6 +9,7 @@
 <%@ taglib prefix="act" tagdir="/WEB-INF/tags/act"%>
 <%@ taglib prefix="cms" tagdir="/WEB-INF/tags/cms"%>
 <%@ taglib prefix="table" tagdir="/WEB-INF/tags/table"%>
+<%@ taglib prefix="echarts" uri="/WEB-INF/tlds/echarts.tld" %>
 <%@ taglib prefix="t" uri="/menu-tags"%>
 <c:set var="ctx"
 	value="${pageContext.request.contextPath}${fns:getAdminPath()}" />
