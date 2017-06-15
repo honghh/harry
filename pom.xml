@@ -47,6 +47,7 @@
 		<http.version>4.3.3</http.version>
 		<echarts.version>2.2.7</echarts.version>
 		<gson.version>2.6.2</gson.version>
+		<!-- <sigar.version>1.6.4</sigar.version> -->
 		
 		<!-- jdbc driver setting -->
 		<mysql.driver.version>5.1.30</mysql.driver.version>
@@ -647,7 +648,7 @@
 		    <version>4.5.1</version>
 		</dependency>
 		<!-- http end-->
-		<!-- echarts begin -->
+		<!-- echarts Echarts图表依赖包 begin -->
 		<dependency>
 		  <groupId>com.github.abel533</groupId>
 		  <artifactId>ECharts</artifactId>
@@ -655,13 +656,35 @@
 		</dependency>
 		<!-- echarts end -->
 		
-		<!-- gson begin -->
+		<!-- gson Echarts图表依赖包 begin -->
 		<dependency>
 		    <groupId>com.google.code.gson</groupId>
 		    <artifactId>gson</artifactId>
 		    <version>${gson.version}</version>
 		</dependency>
 		<!-- gson end -->
+	 	<!-- Sqlite数据库API以及ORM框架开始 -->
+	   <dependency>
+	        <groupId>org.xerial</groupId>
+	        <artifactId>sqlite-jdbc</artifactId>
+	        <version>3.8.11.2</version>
+	    </dependency>
+	    <dependency>
+	        <groupId>com.j256.ormlite</groupId>
+	        <artifactId>ormlite-jdbc</artifactId>
+	        <version>4.47</version>
+	    </dependency>
+	    <!-- Sqlite数据库API以及ORM框架结束 -->
+		
+		<!--sigar  java获取服务器信息的方法 begin -->
+		<dependency>
+		    <groupId>org.fusesource</groupId>
+		    <artifactId>sigar</artifactId>
+		    <version>1.6.4</version>
+		    <scope>system</scope>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/sigar-1.6.4.jar</systemPath>
+		</dependency>
+		<!--sigar  java获取服务器信息的方法 end -->
 		
 		<!-- TEST begin -->
 		<dependency>

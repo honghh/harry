@@ -1,9 +1,13 @@
 package com.qd.common.config;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.Map;
+import java.util.Properties;
 
+import org.apache.ibatis.io.Resources;
 import org.springframework.core.io.DefaultResourceLoader;
 
 import com.ckfinder.connector.ServletContextFactory;
@@ -185,5 +189,45 @@ public class Global {
 		}
 		return projectPath;
 	}
+	/**
+	 * 写入properties信息
+	 * 
+	 * @param key
+	 *            名称
+	 * @param value
+	 *            值
+	 */
+	public static void modifyConfig(String key, String value) {
+		try {
+			// 从输入流中读取属性列表（键和元素对）
+			Properties prop = getProperties();
+			prop.setProperty(key, value);
+			String path = Global.class.getResource("/jeeqd.properties").getPath();
+			FileOutputStream outputFile = new FileOutputStream(path);
+			prop.store(outputFile, "modify");
+			outputFile.close();
+			outputFile.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 返回　Properties
+	 * @param fileName 文件名　(注意：加载的是src下的文件,如果在某个包下．请把包名加上)
+	 * @param 
+	 * @return
+	 */
+	public static Properties getProperties(){
+		Properties prop = new Properties();
+		try {
+			Reader reader = Resources.getResourceAsReader("/jeeqd.properties");
+			prop.load(reader);
+		} catch (Exception e) {
+			return null;
+		}
+		return prop;
+	}
 
+	
 }
