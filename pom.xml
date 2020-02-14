@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>cn.harry</groupId>
+	<artifactId>harry-fast</artifactId>
+	<version>1.0.0</version>
+	<packaging>pom</packaging>
+	<description>harry-fast</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.7.RELEASE</version>
+	</parent>
+
+	<modules>
+		<module>harry-biz</module>
+		<module>harry-platform</module>
+	</modules>
+
+	<!--子模块同父版本相同-->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>cn.harry</groupId>
+				<artifactId>harry-biz</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.harry</groupId>
+				<artifactId>harry-platform</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<repositories>
+		<repository>
+			<id>public</id>
+			<name>aliyun nexus</name>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>public</id>
+			<name>aliyun nexus</name>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+</project>

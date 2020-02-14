@@ -1,0 +1,105 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/harry?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      username: root
+      password: root
+      initial-size: 10
+      max-active: 100
+      min-idle: 10
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      #Oracle需要打开注释
+      #validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        #login-username: admin
+        #login-password: admin
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: false
+        wall:
+          config:
+            multi-statement-allow: true
+#  redis:
+#    host: 192.168.1.249 # Redis服务器地址
+#    database: 0 # Redis数据库索引（默认为0）
+#    port: 6379 # Redis服务器连接端口
+#    password: # Redis服务器连接密码（默认为空）
+#    jedis:
+#      pool:
+#        max-active: 8 # 连接池最大连接数（使用负值表示没有限制）
+#        max-wait: -1ms # 连接池最大阻塞等待时间（使用负值表示没有限制）
+#        max-idle: 8 # 连接池中的最大空闲连接
+#        min-idle: 0 # 连接池中的最小空闲连接
+#    timeout: 10000ms # 连接超时时间（毫秒）
+
+#mybatis
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: cn.harry.*.entity
+  global-config:
+    #数据库相关配置
+    db-config:
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID", ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: AUTO
+      #字段策略 IGNORED:"忽略判断",NOT_NULL:"非 NULL 判断"),NOT_EMPTY:"非空判断"
+      field-strategy: NOT_NULL
+      #驼峰下划线转换
+      column-underline: true
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+    banner: false
+  #原生配置
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    call-setters-on-nulls: true
+    jdbc-type-for-null: 'null'
+
+jwt:
+  tokenHeader: Authorization #JWT存储的请求头
+  secret: www.tech-harry.cn #JWT加解密使用的密钥
+  expiration: 604800 #JWT的超期限时间(60*60*24)
+  tokenHead: Bearer  #JWT负载中拿到开头
+
+harry:
+  sms:
+    accessKeyId: LTAI4Fd4HoU9Q3cDWvWdquG1
+    accessKeySecret: m4lhKVzYTYjgjMZ1wXxKB5IuLxoaMk
+    enabled: false  #如果active为false时 则不发送短信
+  redis:
+    # 是否打开redis缓存
+    open: false
+    #redis有效时长，1天，单位秒
+    expire: 300
+
+aliyun:
+  oss:
+    endpoint: oss-cn-shenzhen.aliyuncs.com # oss对外服务的访问域名
+    accessKeyId: accessKeyId # 访问身份验证中用到用户标识
+    accessKeySecret: accessKeySecret # 用户用于加密签名字符串和oss用来验证签名字符串的密钥
+    bucketName: bucketName # oss的存储空间
+    policyExpire: 300 # 签名有效期(S)
+    maxSize: 10 # 上传文件大小(M)
+    callback: http://img.tech-harry.cn/aliyun/oss/callback # 文件上传成功后的回调地址
+    dirPrefix: harry/images/ # 上传文件夹路径前缀
+
+# 日志配置
+logging:
+  level:
+    root: info
+    #    org.springframework.data.mongodb.core: debug
+    cn.harry: debug
