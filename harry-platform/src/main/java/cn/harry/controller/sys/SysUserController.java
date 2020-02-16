@@ -51,32 +51,28 @@ public class SysUserController {
 
     @ApiOperation("获取指定用户信息")
     @GetMapping(value = "/{id}")
-    public CommonResult<SysUser> getItem(@PathVariable Long id) {
-        SysUser admin = sysUserService.getItem(id);
+    public CommonResult<SysUser> getUserById(@PathVariable Long id) {
+        SysUser admin = sysUserService.getUserById(id);
         return CommonResult.success(admin);
     }
 
     @ApiOperation("修改指定用户信息")
     @PostMapping(value = "/update/{id}")
-    public CommonResult update(@PathVariable Long id, @RequestBody SysUser user) {
+    public CommonResult<Integer> update(@PathVariable Long id, @RequestBody SysUser user) {
         String password = user.getPassword();
-        user.setId(id);
-        SysUser dbUser = sysUserService.getItem(id);
-        if (!Objects.equals(dbUser.getCompanyId(), SysUserUtils.getSysUser().getCompanyId())) {
-            throw new ApiException("没有权限修改该用户信息");
-        }
         SysUser dbUserNameInfo = sysUserService.getByUserName(user.getUsername());
 
         if (dbUserNameInfo != null && !Objects.equals(dbUserNameInfo.getId(), user.getId())) {
             return CommonResult.failed("该用户已存在");
         }
+
         if (StrUtil.isBlank(password)) {
             user.setPassword(null);
         } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
 
-        int count = sysUserService.updateUserAndUserRole(user);
+        int count = sysUserService.updateUserAndRole(user);
 
         if (count > 0) {
             return CommonResult.success(count);
@@ -86,7 +82,7 @@ public class SysUserController {
 
     @ApiOperation("删除指定用户信息")
     @PostMapping(value = "/delete/{id}")
-    public CommonResult delete(@PathVariable Long id) {
+    public CommonResult<Integer> delete(@PathVariable Long id) {
         int count = sysUserService.delete(id);
         if (count > 0) {
             return CommonResult.success(count);
@@ -97,7 +93,7 @@ public class SysUserController {
     @ApiOperation("用户信息")
     @GetMapping("/info/{id}")
     public CommonResult<SysUser> info(@PathVariable("id") Long id) {
-        SysUser user = sysUserService.getItem(id);
+        SysUser user = sysUserService.getUserById(id);
         user.setId(null);
         if (CommonConstant.SUPER_ADMIN_ID != SysUserUtils.getSysUser().getId()
                 &&!Objects.equals(user.getCompanyId(), SysUserUtils.getSysUser().getCompanyId())) {
@@ -118,11 +114,9 @@ public class SysUserController {
 
     @ApiOperation(value = "修改密码", notes = "修改当前登陆用户的密码")
     @PostMapping(value = "/updatePassword")
-    public CommonResult updatePassword(@RequestBody SysUserUpdatePasswordParam passwordParam) {
-
+    public CommonResult<Integer> updatePassword(@RequestBody SysUserUpdatePasswordParam passwordParam) {
         Long userId = SysUserUtils.getSysUser().getId();
-
-        SysUser dbUser = sysUserService.getItem(userId);
+        SysUser dbUser = sysUserService.getUserById(userId);
         if (!passwordEncoder.matches(passwordParam.getPassword(), dbUser.getPassword())) {
             return CommonResult.failed("原密码不正确");
         }
@@ -139,7 +133,7 @@ public class SysUserController {
 
     @ApiOperation("修改用户状态")
     @PostMapping(value = "/update/status/{id}")
-    public CommonResult update(@PathVariable Long id, Integer status) {
+    public CommonResult<Integer> update(@PathVariable Long id, Integer status) {
         int count = sysUserService.updateStatus(id, status);
         if (count > 0) {
             return CommonResult.success(count);

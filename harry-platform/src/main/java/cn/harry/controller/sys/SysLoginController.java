@@ -1,10 +1,10 @@
 package cn.harry.controller.sys;
 
-import cn.harry.sys.param.SysUserLoginParam;
 import cn.harry.common.api.CommonResult;
 import cn.harry.common.utils.JwtTokenUtil;
 import cn.harry.common.utils.SysUserUtils;
 import cn.harry.sys.entity.SysUser;
+import cn.harry.sys.param.SysUserLoginParam;
 import cn.harry.sys.service.SysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -67,9 +67,10 @@ public class SysLoginController {
         String username = principal.getName();
         SysUser umsAdmin = sysUserService.getByUserName(username);
         Map<String, Object> data = new HashMap<>();
-        data.put("username", umsAdmin.getUsername());
+        data.put("name", umsAdmin.getUsername());
+//        data.put("roles", Lists.newArrayList("editor","admin"));
         data.put("roles", SysUserUtils.getAuthorities());
-        data.put("icon", umsAdmin.getIcon());
+        data.put("avatar", umsAdmin.getIcon());
         return CommonResult.success(data);
     }
 

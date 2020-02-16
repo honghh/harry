@@ -1,10 +1,7 @@
 package cn.harry.sys.service;
 
-import cn.harry.sys.param.SysUserCreatByMemberParam;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import cn.harry.sys.entity.SysUser;
-
-import java.util.List;
 
 /**
  * 后台用户表
@@ -18,8 +15,8 @@ public interface SysUserService {
     /**
      * 根据用户名获取后台管理员
      *
-     * @param username
-     * @return
+     * @param username 用户名
+     * @return cn.harry.sys.entity.SysUser
      */
     SysUser getByUserName(String username);
 
@@ -36,26 +33,31 @@ public interface SysUserService {
      * 刷新token的功能
      *
      * @param oldToken 旧的token
+     * @return String
      */
     String refreshToken(String oldToken);
 
     /**
      * 根据用户id获取用户
+     *
+     * @param id
+     * @return
      */
-    SysUser getItem(Long id);
-
-    /**
-     * 根据用户名或昵称分页查询用户
-     */
-    List<SysUser> list(String name, Integer pageSize, Integer pageNum);
+    SysUser getUserById(Long id);
 
     /**
      * 修改指定用户信息
+     * @param id
+     * @param admin
+     * @return
      */
     int update(Long id, SysUser admin);
 
     /**
      * 删除指定用户
+     *
+     * @param id
+     * @return
      */
     int delete(Long id);
 
@@ -70,13 +72,19 @@ public interface SysUserService {
      */
     IPage<SysUser> getPage(String name, Integer pageSize, Integer pageNum);
 
-    int updateUserAndUserRole(SysUser user);
+    /**
+     * 更新用户以及权限
+     * @param user
+     * @return
+     */
+    int updateUserAndRole(SysUser user);
 
     /**
      * 修改密码
      *
      * @param userId      用户ID
      * @param newPassword 新密码
+     * @return
      */
     int updatePasswordByUserId(Long userId, String newPassword);
 
@@ -89,11 +97,5 @@ public interface SysUserService {
      */
     int updateStatus(Long id, Integer status);
 
-    /**
-     * 根据会员信息创建商家后台管理员
-     * @param creatByMember
-     * @return
-     */
-    int creatUserByMember(SysUserCreatByMemberParam creatByMember);
 }
 
