@@ -28,5 +28,13 @@ public interface SysUserRoleService extends IService<SysUserRole> {
      * @param roleIdList
      */
     void insertUserAndUserRole(Long userId, List<Long> roleIdList);
+
+    /**
+     * 删除历史角色 创建新的角色
+     * @param userId
+     * @param roleIdList
+     * @return
+     */
+    void delAndCreateRole(Long userId, List<Long> roleIdList);
 }
 

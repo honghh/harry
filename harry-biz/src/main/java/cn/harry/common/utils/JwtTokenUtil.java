@@ -75,7 +75,7 @@ public class JwtTokenUtil {
      * 生成token的过期时间
      */
     private Date generateExpirationDate() {
-        return new Date(System.currentTimeMillis() + Long.valueOf(expiration) * 1000);
+        return new Date(System.currentTimeMillis() + Long.parseLong(expiration) * 1000);
     }
 
     /**
@@ -100,7 +100,7 @@ public class JwtTokenUtil {
      */
     public boolean validateToken(String token, UserDetails userDetails) {
         String username = getUserNameFromToken(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        return username.equals(userDetails.getUsername()) && isTokenExpired(token);
     }
 
     /**
@@ -108,7 +108,7 @@ public class JwtTokenUtil {
      */
     private boolean isTokenExpired(String token) {
         Date expiredDate = getExpiredDateFromToken(token);
-        return expiredDate.before(new Date());
+        return !expiredDate.before(new Date());
     }
 
     /**
@@ -140,7 +140,7 @@ public class JwtTokenUtil {
      * 判断token是否可以被刷新
      */
     public boolean canRefresh(String token) {
-        return !isTokenExpired(token);
+        return isTokenExpired(token);
     }
 
     /**

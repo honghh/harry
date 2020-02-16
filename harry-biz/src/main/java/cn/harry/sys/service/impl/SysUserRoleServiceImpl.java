@@ -1,11 +1,12 @@
 package cn.harry.sys.service.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import cn.harry.sys.dao.SysUserRoleDao;
 import cn.harry.sys.entity.SysUserRole;
 import cn.harry.sys.service.SysUserRoleService;
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,6 +38,15 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleDao, SysUserR
     @Override
     public void insertUserAndUserRole(Long userId, List<Long> roleIdList) {
         this.baseMapper.insertUserAndUserRole(userId, roleIdList);
+    }
+
+    @Override
+    public void delAndCreateRole(Long userId, List<Long> roleIdList) {
+        remove(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserId, userId));
+        if (CollUtil.isNotEmpty(roleIdList)) {
+            //保存用户与角色关系
+           insertUserAndUserRole(userId, roleIdList);
+        }
     }
 
 }
