@@ -55,13 +55,13 @@ Harry
 
  **前端部署**
  - 本项目是前后端分离的，还需要部署前端，才能运行起来
- - 前端下载地址：待填充
+ - 前端下载地址：https://github.com/honghh/harry-vue
  - 前端部署文档：待填充
- - 前端部署完毕，就可以访问项目了，账号：admin，密码：admin
+ - 前端部署完毕，就可以访问项目了，账号：admin，密码：123456
  
  <br>
 
  **项目演示**
-- 演示地址：http://www.tech-harry.cn
+- 演示地址：http://www.honghh.top
 - 账号密码：admin/admin
 <br> 
