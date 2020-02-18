@@ -3,10 +3,12 @@ package cn.harry.config;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
 
-import javax.annotation.Resource;
-
 /**
  * 全局跨域配置
+ *
+ * @author honghh
+ * Date 2019-10-12 10:55:44
+ * Copyright (C) www.tech-harry.cn
  */
 @Configuration
 @EnableWebMvc

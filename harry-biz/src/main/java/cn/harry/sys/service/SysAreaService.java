@@ -13,6 +13,11 @@ import java.util.List;
  */
 public interface SysAreaService {
 
+    /**
+     * 地区
+     *
+     * @return
+     */
     List<SysAreaResult> allList();
 }
 

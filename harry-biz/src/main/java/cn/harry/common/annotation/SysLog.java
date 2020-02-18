@@ -14,6 +14,6 @@ import java.lang.annotation.*;
 @Documented
 public @interface SysLog {
 
-    String MODULE() default "操作模块";
-    String REMARK() default "操作日志";
+    String module() default "操作模块";
+    String remark() default "操作日志";
 }

@@ -22,7 +22,7 @@ import java.util.List;
  * Copyright (C) www.tech-harry.cn
  */
 @RestController
-@RequestMapping("/role")
+@RequestMapping("/sys/role")
 @Api(tags = "SysRoleController", description = "角色管理")
 public class SysRoleController {
     @Resource

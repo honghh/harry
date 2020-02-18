@@ -1,7 +1,7 @@
 FROM java:8
-EXPOSE 8080
+EXPOSE 9001
 
 VOLUME /tmp
-ADD renren-fast.jar  /app.jar
+ADD harry-platform.jar  /app.jar
 RUN bash -c 'touch /app.jar'
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]

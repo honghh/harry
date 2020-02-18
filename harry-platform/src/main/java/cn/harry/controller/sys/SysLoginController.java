@@ -68,7 +68,6 @@ public class SysLoginController {
         SysUser umsAdmin = sysUserService.getByUserName(username);
         Map<String, Object> data = new HashMap<>();
         data.put("name", umsAdmin.getUsername());
-//        data.put("roles", Lists.newArrayList("editor","admin"));
         data.put("roles", SysUserUtils.getAuthorities());
         data.put("avatar", umsAdmin.getIcon());
         return CommonResult.success(data);

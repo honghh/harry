@@ -30,10 +30,8 @@ public class BeanUtils {
             return null;
         }
         try {
-            String json_source = JSON.toJSONString(source);
-            T dest = JSONObject.parseObject(json_source, targetClass);
-
-            return dest;
+            String jsonSource = JSON.toJSONString(source);
+            return JSONObject.parseObject(jsonSource, targetClass);
         } catch (Exception e) {
             log.error("对象转换出错：目标对象类型:{}, 被转换的对象类型:{}, 被转换的对象值:{}", targetClass, source.getClass(),
                     JSON.toJSONString(source, SerializerFeature.WriteMapNullValue), e);
@@ -53,9 +51,8 @@ public class BeanUtils {
             return null;
         }
         try {
-            String json_source = JSON.toJSONString(listSource);
-            List<T> dest = JSONArray.parseArray(json_source, targetClass);
-            return dest;
+            String jsonSource = JSON.toJSONString(listSource);
+            return JSONArray.parseArray(jsonSource, targetClass);
         } catch (Exception e) {
             log.error("对象转换出错：目标对象类型:{}, 被转换的对象类型:{}, 被转换的对象值:{}", targetClass, listSource.getClass(),
                     JSON.toJSONString(listSource, SerializerFeature.WriteMapNullValue), e);

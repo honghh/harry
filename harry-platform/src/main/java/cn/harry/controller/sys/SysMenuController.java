@@ -25,7 +25,7 @@ import java.util.*;
  * Copyright (C) www.tech-harry.cn
  */
 @RestController
-@RequestMapping("/menu")
+@RequestMapping("/sys/menu")
 @Api(tags = "SysMenuController", description = "系统菜单管理")
 public class SysMenuController {
     @Resource

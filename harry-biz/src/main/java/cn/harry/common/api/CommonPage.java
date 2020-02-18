@@ -7,6 +7,10 @@ import java.util.List;
 
 /**
  * 分页数据封装类
+ *
+ * @author honghh
+ * Date 2019-10-12 10:55:44
+ * Copyright (C) www.tech-harry.cn
  */
 public class CommonPage<T> {
     private Integer pageNum;

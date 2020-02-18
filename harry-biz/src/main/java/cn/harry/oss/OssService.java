@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
  * oss上传管理Service
  * Created by macro on 2018/5/17.
  */
+
 /**
  * ClassName: MybatisPlusConfig
  * Description:
@@ -21,10 +22,16 @@ import javax.servlet.http.HttpServletRequest;
 public interface OssService {
     /**
      * oss上传策略生成
+     *
+     * @return
      */
     OssPolicyResult policy();
+
     /**
      * oss上传成功回调
+     *
+     * @param request
+     * @return
      */
     OssCallbackResult callback(HttpServletRequest request);
 }

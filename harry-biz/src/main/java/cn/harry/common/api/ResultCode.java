@@ -2,6 +2,10 @@ package cn.harry.common.api;
 
 /**
  * 枚举了一些常用API操作码
+ *
+ * @author honghh
+ * Date 2019-10-12 10:55:44
+ * Copyright (C) www.tech-harry.cn
  */
 public enum ResultCode implements IErrorCode {
     /**

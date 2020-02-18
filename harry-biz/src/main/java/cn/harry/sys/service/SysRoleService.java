@@ -13,12 +13,39 @@ import cn.harry.sys.entity.SysRole;
  */
 public interface SysRoleService extends IService<SysRole> {
 
+    /**
+     * 分页获取用户角色
+     *
+     * @param name
+     * @param pageSize
+     * @param pageNum
+     * @return
+     */
     IPage<SysRole> getPage(String name, Integer pageSize, Integer pageNum);
 
+    /**
+     * 创建
+     *
+     * @param sysRole
+     * @return
+     */
     int create(SysRole sysRole);
 
+    /**
+     * 更新
+     *
+     * @param id
+     * @param sysRole
+     * @return
+     */
     int update(Long id, SysRole sysRole);
 
+    /**
+     * 删除
+     *
+     * @param id
+     * @return
+     */
     int delete(Long id);
 
 }

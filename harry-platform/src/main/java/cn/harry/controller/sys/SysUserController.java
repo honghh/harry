@@ -1,16 +1,14 @@
 package cn.harry.controller.sys;
 
-import cn.harry.common.api.CommonResult;
-import cn.harry.common.exception.ApiException;
-import cn.harry.sys.param.SysUserUpdatePasswordParam;
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import cn.harry.common.api.CommonPage;
-import cn.harry.common.constant.CommonConstant;
+import cn.harry.common.api.CommonResult;
 import cn.harry.common.utils.SysUserUtils;
 import cn.harry.sys.entity.SysUser;
+import cn.harry.sys.param.SysUserUpdatePasswordParam;
 import cn.harry.sys.service.SysUserRoleService;
 import cn.harry.sys.service.SysUserService;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +29,7 @@ import java.util.Objects;
  */
 @RestController
 @Api(tags = "SysUserController", description = "后台用户管理")
-@RequestMapping("/user")
+@RequestMapping("/sys/user")
 public class SysUserController {
     @Resource
     private SysUserService sysUserService;
@@ -94,11 +92,6 @@ public class SysUserController {
     @GetMapping("/info/{id}")
     public CommonResult<SysUser> info(@PathVariable("id") Long id) {
         SysUser user = sysUserService.getUserById(id);
-        user.setId(null);
-        if (CommonConstant.SUPER_ADMIN_ID != SysUserUtils.getSysUser().getId()
-                &&!Objects.equals(user.getCompanyId(), SysUserUtils.getSysUser().getCompanyId())) {
-            throw new ApiException("没有权限获取该用户信息");
-        }
         //获取用户所属的角色列表
         List<Long> roleIdList = sysUserRoleService.listRoleIdByUserId(id);
         user.setRoleIdList(roleIdList);

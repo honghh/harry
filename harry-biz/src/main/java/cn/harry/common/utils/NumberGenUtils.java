@@ -1,8 +1,7 @@
 package cn.harry.common.utils;
 
-import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.lang.UUID;
 import cn.harry.common.constant.CommonConstant;
+import cn.hutool.core.date.DateUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -63,38 +62,5 @@ public class NumberGenUtils {
         sb.append(date);
         sb.append(DateUtil.current(true));
         return sb.toString();
-    }
-
-    public static void main(String[] args) {
-        StringBuilder sb = new StringBuilder();
-        String date = new SimpleDateFormat("yyyyMMdd").format(new Date());
-        sb.append(date);
-        sb.append(String.format("%02d", 1));
-        sb.append(String.format("%02d", 1));
-        sb.append(String.format("%06d", 222222));
-
-
-        String date2 = new SimpleDateFormat("yyyyMMdd").format(DateUtil.yesterday());
-        System.out.println(date2);
-        System.out.println(sb.toString());
-
-        System.out.println("=============");
-        System.out.println(DateUtil.current(true));
-        System.out.println(DateUtil.current(true));
-        System.out.println(DateUtil.current(true));
-        System.out.println(DateUtil.current(true));
-        System.out.println(DateUtil.current(true));
-
-
-        for (int i = 0; i < 10; i++) {
-            StringBuilder sb2 = new StringBuilder();
-            sb2.append("qf");
-            sb2.append(DateUtil.current(true));
-            System.out.println(sb2.toString());
-        }
-        System.out.println(UUID.randomUUID());
-
-        System.out.println(generateCode(CommonConstant.ALI_PAY_PREFIX));
-
     }
 }

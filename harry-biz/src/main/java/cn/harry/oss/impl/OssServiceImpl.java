@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -47,10 +48,10 @@ public class OssServiceImpl implements OssService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String dir = ossConfig.getDirPrefix() + sdf.format(new Date());
         // 签名有效期
-        long expireEndTime = System.currentTimeMillis() + Long.valueOf(ossConfig.getPolicyExpire()) * 1000;
+        long expireEndTime = System.currentTimeMillis() + Long.parseLong(ossConfig.getPolicyExpire()) * 1000;
         Date expiration = new Date(expireEndTime);
         // 文件大小
-        long maxSize = Long.valueOf(ossConfig.getMaxSize()) * 1024 * 1024;
+        long maxSize = Long.parseLong(ossConfig.getMaxSize()) * 1024 * 1024;
         // 回调
         OssCallbackParam callback = new OssCallbackParam();
         callback.setCallbackUrl(ossConfig.getCallback());
@@ -63,10 +64,10 @@ public class OssServiceImpl implements OssService {
             policyConds.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, 0, maxSize);
             policyConds.addConditionItem(MatchMode.StartWith, PolicyConditions.COND_KEY, dir);
             String postPolicy = ossClient.generatePostPolicy(expiration, policyConds);
-            byte[] binaryData = postPolicy.getBytes("utf-8");
+            byte[] binaryData = postPolicy.getBytes(StandardCharsets.UTF_8);
             String policy = BinaryUtil.toBase64String(binaryData);
             String signature = ossClient.calculatePostSignature(postPolicy);
-            String callbackData = BinaryUtil.toBase64String(JSONUtil.parse(callback).toString().getBytes("utf-8"));
+            String callbackData = BinaryUtil.toBase64String(JSONUtil.parse(callback).toString().getBytes(StandardCharsets.UTF_8));
             // 返回结果
             result.setAccessKeyId(ossClient.getCredentialsProvider().getCredentials().getAccessKeyId());
             result.setPolicy(policy);
