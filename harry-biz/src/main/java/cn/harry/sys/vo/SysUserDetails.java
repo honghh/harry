@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  *
  * @author honghh
  * Date 2019/08/14 15:00
- * Copyright (C) www.tech-harry.cn
+ * Copyright (C) www.honghh.top
  */
 public class SysUserDetails implements UserDetails {
     private SysUser sysUser;

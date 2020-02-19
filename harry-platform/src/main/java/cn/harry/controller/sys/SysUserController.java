@@ -25,7 +25,7 @@ import java.util.Objects;
  *
  * @author honghh
  * Date 2019/10/15 12:42
- * Copyright (C) www.tech-harry.cn
+ * Copyright (C) www.honghh.top
  */
 @RestController
 @Api(tags = "SysUserController", description = "后台用户管理")

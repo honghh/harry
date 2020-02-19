@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
  *
  * @author honghh
  * Date 2019-10-22 10:38:46
- * Copyright (C) www.tech-harry.cn
+ * Copyright (C) www.honghh.top
  */
 @Mapper
 public interface SysCountryDao extends BaseMapper<SysCountry> {

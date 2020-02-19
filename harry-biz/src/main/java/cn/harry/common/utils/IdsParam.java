@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author honghh
  * Date 2019/09/24 12:53
- * Copyright (C) www.tech-harry.cn
+ * Copyright (C) www.honghh.top
  */
 @Data
 public class IdsParam {

@@ -9,7 +9,7 @@ import cn.harry.common.api.IErrorCode;
  *
  * @author honghh
  * Date 2019/10/08 10:47
- * Copyright (C) www.tech-harry.cn
+ * Copyright (C) www.honghh.top
  */
 public enum KaptchaEnum implements IErrorCode {
     /**

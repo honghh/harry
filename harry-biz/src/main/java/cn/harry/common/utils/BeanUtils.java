@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author honghh
  * Date 2019/08/14 15:00
- * Copyright (C) www.tech-harry.cn
+ * Copyright (C) www.honghh.top
  */
 @Slf4j
 public class BeanUtils {

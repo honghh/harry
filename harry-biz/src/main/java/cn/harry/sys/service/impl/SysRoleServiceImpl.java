@@ -23,7 +23,7 @@ import javax.annotation.Resource;
  *
  * @author honghh
  * Date 2019-10-12 10:55:44
- * Copyright (C) www.tech-harry.cn
+ * Copyright (C) www.honghh.top
  */
 @Service("sysRoleService")
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRole> implements SysRoleService {

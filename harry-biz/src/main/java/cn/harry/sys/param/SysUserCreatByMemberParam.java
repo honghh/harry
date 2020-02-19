@@ -9,7 +9,7 @@ import lombok.Data;
  *
  * @author honghh
  * Date 2019/10/24 10:00
- * Copyright (C) www.tech-harry.cn
+ * Copyright (C) www.honghh.top
  */
 @Data
 public class SysUserCreatByMemberParam {

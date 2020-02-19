@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  *
  * @author honghh
  * Date 2019/10/14 11:50
- * Copyright (C) www.tech-harry.cn
+ * Copyright (C) www.honghh.top
  */
 @EnableTransactionManagement
 @Configuration

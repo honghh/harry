@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
  *
  * @author honghh
  * Date 2019-11-25 16:36:48
- * Copyright (C) www.tech-harry.cn
+ * Copyright (C) www.honghh.top
  */
 @Mapper
 public interface SysConfigDao extends BaseMapper<SysConfig> {

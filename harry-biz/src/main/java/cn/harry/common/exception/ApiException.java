@@ -8,7 +8,7 @@ import cn.harry.common.api.IErrorCode;
  *
  * @author honghh
  * Date 2019/07/18 14:03
- * Copyright (C) www.tech-harry.cn
+ * Copyright (C) www.honghh.top
  */
 public class ApiException extends RuntimeException {
 	private static final long serialVersionUID = 1L;

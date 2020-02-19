@@ -17,7 +17,7 @@ import javax.annotation.Resource;
  *
  * @author honghh
  * Date 2020/02/18 13:57
- * Copyright (C) www.tech-harry.cn
+ * Copyright (C) www.honghh.top
  */
 @RestController
 @Api(tags = "SysConfigController", description = "后台用户管理")
