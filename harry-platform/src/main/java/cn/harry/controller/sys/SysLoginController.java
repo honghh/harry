@@ -6,6 +6,7 @@ import cn.harry.common.utils.SysUserUtils;
 import cn.harry.sys.entity.SysUser;
 import cn.harry.sys.param.SysUserLoginParam;
 import cn.harry.sys.service.SysUserService;
+import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -68,7 +69,8 @@ public class SysLoginController {
         SysUser umsAdmin = sysUserService.getByUserName(username);
         Map<String, Object> data = new HashMap<>();
         data.put("name", umsAdmin.getUsername());
-        data.put("roles", SysUserUtils.getAuthorities());
+        data.put("roles", Lists.newArrayList("admin"));
+//        data.put("roles", SysUserUtils.getAuthorities());
         data.put("avatar", umsAdmin.getIcon());
         return CommonResult.success(data);
     }
