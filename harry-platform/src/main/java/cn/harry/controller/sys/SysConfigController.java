@@ -47,7 +47,7 @@ public class SysConfigController {
     }
 
     @ApiOperation("修改配置参数状态")
-    @PostMapping(value = "/update/status/{id}")
+    @PutMapping(value = "/update/status/{id}")
     public CommonResult<Integer> update(@PathVariable Long id, Integer status) {
         int count = sysConfigService.updateStatus(id, status);
         if (count > 0) {
@@ -57,7 +57,7 @@ public class SysConfigController {
     }
 
     @ApiOperation("修改指定配置参数")
-    @PostMapping(value = "/update/{id}")
+    @PutMapping(value = "/update/{id}")
     public CommonResult update(@PathVariable Long id, @RequestBody SysConfig sysConfig) {
         int count = sysConfigService.update(id, sysConfig);
         if (count > 0) {
@@ -67,7 +67,7 @@ public class SysConfigController {
     }
 
     @ApiOperation("删除指定配置参数")
-    @PostMapping(value = "/delete/{id}")
+    @DeleteMapping(value = "/delete/{id}")
     public CommonResult<Integer> delete(@PathVariable Long id) {
         int count = sysConfigService.delete(id);
         if (count > 0) {

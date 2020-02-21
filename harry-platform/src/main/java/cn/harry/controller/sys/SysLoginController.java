@@ -6,7 +6,6 @@ import cn.harry.common.utils.SysUserUtils;
 import cn.harry.sys.entity.SysUser;
 import cn.harry.sys.param.SysUserLoginParam;
 import cn.harry.sys.service.SysUserService;
-import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * ClassName: SysAdminController
+ * ClassName: SysLoginController
  * Description:
  *
  * @author honghh
@@ -64,13 +63,12 @@ public class SysLoginController {
 
     @ApiOperation(value = "获取当前登录用户信息")
     @GetMapping(value = "/info")
-    public CommonResult<Map<String, Object>> getAdminInfo(Principal principal) {
+    public CommonResult<Map<String, Object>> getInfo(Principal principal) {
         String username = principal.getName();
         SysUser umsAdmin = sysUserService.getByUserName(username);
         Map<String, Object> data = new HashMap<>();
         data.put("name", umsAdmin.getUsername());
-        data.put("roles", Lists.newArrayList("admin"));
-//        data.put("roles", SysUserUtils.getAuthorities());
+        data.put("roles", SysUserUtils.getAuthorities());
         data.put("avatar", umsAdmin.getIcon());
         return CommonResult.success(data);
     }

@@ -50,7 +50,7 @@ public class SysRoleController {
     }
 
     @ApiOperation("修改指定角色信息")
-    @PostMapping(value = "/update/{id}")
+    @PutMapping(value = "/update/{id}")
     public CommonResult update(@PathVariable Long id, @RequestBody SysRole sysRole) {
         int count = sysRoleService.update(id, sysRole);
         if (count > 0) {
@@ -60,7 +60,7 @@ public class SysRoleController {
     }
 
     @ApiOperation("删除指定角色信息")
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @DeleteMapping(value = "/delete/{id}")
     public CommonResult delete(@PathVariable Long id) {
         int count = sysRoleService.delete(id);
         if (count > 0) {

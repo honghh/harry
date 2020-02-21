@@ -3,6 +3,7 @@ package cn.harry.component;
 
 import cn.harry.common.utils.IpAddressUtil;
 import cn.harry.common.utils.JwtTokenUtil;
+import cn.harry.common.utils.SysUserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -81,16 +82,30 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         endTime = System.currentTimeMillis();
         String requestType = request.getMethod();
 
-        log.info(formMapKey(11, fullUrl, requestType,
-                IpAddressUtil.getIpAddr(request), sbParams.toString(), authHeader)
-                + ",\"cost\":\"" + (endTime - startTime) + "ms\"");
+        formMapKey(SysUserUtils.getSysUser().getId(), fullUrl, requestType, IpAddressUtil.getIpAddr(request), sbParams.toString(), authHeader,endTime,startTime);
     }
 
-    private String formMapKey(Object userId, String mothedName, String requestType,
-                              String ip, String params, String token) {
-        return "\"time\"" + ":\"" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS").format(new Date())
-                + "\",\"name\"" + ":\"" + mothedName + "\",\"uid\":\"" + userId
-                + "\",\"type\":\"" + requestType + "\",\"ip\":\"" + ip
-                + "\",\"token\":\"" + token + "\",\"params\":\"" + params + "\"";
+    /**
+     *
+     * @param userId 用户ID
+     * @param methodName 请求接口
+     * @param requestType 请求类型
+     * @param ip 请求IP
+     * @param params 请求参数
+     * @param token 请求token
+     * @return
+     */
+    private void formMapKey(Object userId, String methodName, String requestType,
+                              String ip, String params, String token,long endTime , long startTime) {
+        String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS").format(new Date());
+        log.info("接口信息：\n\"time\":\"{}\"," +
+                "\"methodName\":\"{}\"," +
+                "\"uid\":\"{}\"," +
+                "\"type\":\"{}\"," +
+                "\"ip\":\"{}\"," +
+                "\"token\":\"{}\"," +
+                "\"params\":\"{}\"\n" +
+                "\"cost\":\"{}ms\"\n",time,methodName,userId,requestType,ip,token,params,(endTime - startTime));
+
     }
 }

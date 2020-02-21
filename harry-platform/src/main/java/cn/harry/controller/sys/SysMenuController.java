@@ -66,7 +66,7 @@ public class SysMenuController {
     }
 
     @ApiOperation("删除指定菜单信息")
-    @GetMapping(value = "/delete/{id}")
+    @DeleteMapping(value = "/delete/{id}")
     public CommonResult delete(@PathVariable Long id) {
         if (id <= CommonConstant.SYS_MENU_MAX_ID) {
             return CommonResult.failed("系统菜单，不能删除");
@@ -101,7 +101,7 @@ public class SysMenuController {
      */
 
     @ApiOperation("修改指定菜单信息")
-    @PostMapping(value = "/update/{id}")
+    @PutMapping(value = "/update/{id}")
     public CommonResult<String> update(@PathVariable Long id, @Valid @RequestBody SysMenu menu) {
         //数据校验
         verifyForm(menu);

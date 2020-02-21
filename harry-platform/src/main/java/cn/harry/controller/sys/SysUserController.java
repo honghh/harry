@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * ClassName: SysAdminController
+ * ClassName: SysUserController
  * Description:
  *
  * @author honghh
@@ -47,15 +47,18 @@ public class SysUserController {
         return CommonResult.success(CommonPage.restPage(adminList));
     }
 
-    @ApiOperation("获取指定用户信息")
-    @GetMapping(value = "/{id}")
-    public CommonResult<SysUser> getUserById(@PathVariable Long id) {
-        SysUser admin = sysUserService.getUserById(id);
-        return CommonResult.success(admin);
+    @ApiOperation("用户信息")
+    @GetMapping("/info/{id}")
+    public CommonResult<SysUser> info(@PathVariable("id") Long id) {
+        SysUser user = sysUserService.getUserById(id);
+        //获取用户所属的角色列表
+        List<Long> roleIdList = sysUserRoleService.listRoleIdByUserId(id);
+        user.setRoleIdList(roleIdList);
+        return CommonResult.success(user);
     }
 
     @ApiOperation("修改指定用户信息")
-    @PostMapping(value = "/update/{id}")
+    @PutMapping(value = "/update/{id}")
     public CommonResult<Integer> update(@PathVariable Long id, @RequestBody SysUser user) {
         String password = user.getPassword();
         SysUser dbUserNameInfo = sysUserService.getByUserName(user.getUsername());
@@ -78,35 +81,18 @@ public class SysUserController {
         return CommonResult.failed();
     }
 
-    @ApiOperation("删除指定用户信息")
-    @PostMapping(value = "/delete/{id}")
-    public CommonResult<Integer> delete(@PathVariable Long id) {
-        int count = sysUserService.delete(id);
+    @ApiOperation("修改用户状态")
+    @PutMapping(value = "/update/status/{id}")
+    public CommonResult<Integer> update(@PathVariable Long id, Integer status) {
+        int count = sysUserService.updateStatus(id, status);
         if (count > 0) {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
     }
 
-    @ApiOperation("用户信息")
-    @GetMapping("/info/{id}")
-    public CommonResult<SysUser> info(@PathVariable("id") Long id) {
-        SysUser user = sysUserService.getUserById(id);
-        //获取用户所属的角色列表
-        List<Long> roleIdList = sysUserRoleService.listRoleIdByUserId(id);
-        user.setRoleIdList(roleIdList);
-        return CommonResult.success(user);
-    }
-
-    @ApiOperation("用户信息")
-    @GetMapping("/info")
-    public CommonResult<SysUser> info() {
-        SysUser user = SysUserUtils.getSysUser();
-        return CommonResult.success(user);
-    }
-
     @ApiOperation(value = "修改密码", notes = "修改当前登陆用户的密码")
-    @PostMapping(value = "/updatePassword")
+    @PutMapping(value = "/updatePassword")
     public CommonResult<Integer> updatePassword(@RequestBody SysUserUpdatePasswordParam passwordParam) {
         Long userId = SysUserUtils.getSysUser().getId();
         SysUser dbUser = sysUserService.getUserById(userId);
@@ -124,15 +110,14 @@ public class SysUserController {
 
     }
 
-    @ApiOperation("修改用户状态")
-    @PostMapping(value = "/update/status/{id}")
-    public CommonResult<Integer> update(@PathVariable Long id, Integer status) {
-        int count = sysUserService.updateStatus(id, status);
+    @ApiOperation("删除指定用户信息")
+    @DeleteMapping(value = "/delete/{id}")
+    public CommonResult<Integer> delete(@PathVariable Long id) {
+        int count = sysUserService.delete(id);
         if (count > 0) {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
     }
-
 }
 
