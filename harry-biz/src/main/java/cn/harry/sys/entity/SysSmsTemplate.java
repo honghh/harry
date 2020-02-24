@@ -71,9 +71,9 @@ public class SysSmsTemplate implements Serializable {
     @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
     private Date modifyTime;
     /**
-     * 是否删除  0：已删除  1：正常
+     * 有效状态：0->无效；1->有效
      */
-    @ApiModelProperty(value = "是否删除  0：已删除  1：正常")
+    @ApiModelProperty(value = "有效状态：0->无效；1->有效")
     private Integer valid;
 
 }

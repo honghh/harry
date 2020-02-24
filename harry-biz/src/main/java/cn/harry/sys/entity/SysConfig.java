@@ -66,10 +66,10 @@ public class SysConfig implements Serializable {
     @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
     private Date modifyTime;
     /**
-     * 删除状态：0->未删除；1->已删除
+     * 有效状态：0->无效；1->有效
      */
-    @ApiModelProperty(value = "删除状态：0->未删除；1->已删除")
+    @ApiModelProperty(value = "有效状态：0->无效；1->有效")
     @TableLogic
-    private Integer deleteStatus;
+    private Integer valid;
 
 }
