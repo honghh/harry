@@ -3,6 +3,7 @@ package cn.harry.sys.entity;
 import cn.hutool.core.date.DatePattern;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
@@ -101,6 +102,7 @@ public class SysUser implements Serializable {
      * 有效状态：0->无效；1->有效
      */
     @ApiModelProperty(value = "有效状态：0->无效；1->有效")
+    @TableLogic
     private Integer valid;
 
     /**
