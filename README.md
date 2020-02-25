@@ -5,8 +5,6 @@
 - 实现前后端分离，通过token进行数据交互，前端再也不用关注后端技术
 - 灵活的权限控制，可控制到页面或按钮，满足绝大部分的权限需求
 - 完善的代码生成机制，可在线生成entity、xml、dao、service代码，减少70%以上的开发任务
-- 引入API模板，根据token作为登录令牌，极大的方便了APP接口开发
-- 引入云存储服务，已支持：七牛云、阿里云、腾讯云等
 - 引入swagger文档支持，方便编写API接口文档
 <br> 
 
@@ -19,10 +17,8 @@ Harry
 │  └─utils 工具类
 │ 
 ├─config 配置信息
-│ 
-├─modules 功能模块
-│  ├─oss 文件服务模块
-│  └─sys 权限模块
+│─oss 文件服务模块
+│─sys 权限模块
 │ 
 ├─PlatformApplication 项目启动类
 │  
@@ -37,7 +33,7 @@ Harry
 - 核心框架：Spring Boot 2.1.7
 - 安全框架：Security 
 - 持久层框架：Mybatis-Plus 3.0
-- 数据库连接池：Druid 1.0
+- 数据库连接池：Druid 1.1.13
 - 日志管理：SLF4J 1.7、Log4j 
 <br> 
 
@@ -62,16 +58,26 @@ Harry
  - 前端下载地址：
 > - **GitHub:** https://github.com/honghh/harry-vue.git
 > - **Gitee:** https://gitee.com/honghh/harry-vue.git
- - 前端部署文档：待填充
+ - 前端部署文档：-
  - 前端部署完毕，就可以访问项目了，账号：admin，密码：123456
  
  <br>
 
+ **配套代码生成器**
+> - **GitHub:** https://github.com/honghh/harry-generator.git
+> - **Gitee:** https://gitee.com/honghh/harry-generator.git
+ <br>
  **项目演示**
 - 演示地址：http://www.honghh.top
 - 账号密码：admin/admin
 <br> 
-**项目截图**
+
+ **联系作者**
+- 微信公众号：![在这里插入图片描述](https://img-blog.csdnimg.cn/20200225085656400.png)
+- 通过微信公众号联系我呀！！！
+<br> 
+
+ **项目截图**
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2020021816273979.png)
 
