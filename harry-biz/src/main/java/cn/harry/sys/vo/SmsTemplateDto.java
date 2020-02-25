@@ -8,7 +8,7 @@ import lombok.Data;
  *
  * @author honghh
  * Date 2019/08/30 14:12
- * Copyright (C) www.tech-harry.cn
+ * Copyright (C) www.honghh.top
  */
 @Data
 public class SmsTemplateDto {

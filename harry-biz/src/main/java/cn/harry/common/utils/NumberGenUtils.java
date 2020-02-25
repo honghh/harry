@@ -14,7 +14,7 @@ import java.util.Date;
  *
  * @author honghh
  * Date 2019/10/30 16:18
- * Copyright (C) www.tech-harry.cn
+ * Copyright (C) www.honghh.top
  */
 @Component
 public class NumberGenUtils {

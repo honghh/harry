@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
  *
  * @author honghh
  * Date 2019-11-25 16:36:48
- * Copyright (C) www.tech-harry.cn
+ * Copyright (C) www.honghh.top
  */
 public interface SysConfigService {
     /**

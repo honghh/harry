@@ -44,6 +44,10 @@ Harry
 
  **后端部署**
 - 通过git下载源码
+
+> - **GitHub:** https://github.com/honghh/harry.git
+> - **Gitee:** https://gitee.com/honghh/harry.git
+
 - idea、eclipse需安装lombok插件，不然会提示找不到entity的get set方法
 - 创建数据库harry，数据库编码为UTF-8
 - 执行db/mysql.sql文件，初始化数据
@@ -55,13 +59,25 @@ Harry
 
  **前端部署**
  - 本项目是前后端分离的，还需要部署前端，才能运行起来
- - 前端下载地址：待填充
+ - 前端下载地址：
+> - **GitHub:** https://github.com/honghh/harry-vue.git
+> - **Gitee:** https://gitee.com/honghh/harry-vue.git
  - 前端部署文档：待填充
- - 前端部署完毕，就可以访问项目了，账号：admin，密码：admin
+ - 前端部署完毕，就可以访问项目了，账号：admin，密码：123456
  
  <br>
 
  **项目演示**
-- 演示地址：http://www.tech-harry.cn
+- 演示地址：http://www.honghh.top
 - 账号密码：admin/admin
 <br> 
+**项目截图**
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2020021816273979.png)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200218162855335.png)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200218162914219.png)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200218162932142.png)
+

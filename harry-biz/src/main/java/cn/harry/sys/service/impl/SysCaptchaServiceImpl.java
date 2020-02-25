@@ -20,7 +20,7 @@ import java.util.Date;
  *
  * @author honghh
  * Date 2019-10-12 10:55:44
- * Copyright (C) www.tech-harry.cn
+ * Copyright (C) www.honghh.top
  */
 @Service("sysCaptchaService")
 public class SysCaptchaServiceImpl extends ServiceImpl<SysCaptchaDao, SysCaptcha> implements SysCaptchaService {

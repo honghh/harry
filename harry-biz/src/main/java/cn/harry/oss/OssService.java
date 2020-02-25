@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author honghh
  * Date 2019/10/14 11:50
- * Copyright (C) www.tech-harry.cn
+ * Copyright (C) www.honghh.top
  */
 public interface OssService {
     /**

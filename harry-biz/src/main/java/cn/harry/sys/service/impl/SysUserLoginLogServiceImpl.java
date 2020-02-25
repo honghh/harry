@@ -13,7 +13,7 @@ import cn.harry.sys.dao.SysUserLoginLogDao;
  *
  * @author honghh
  * Date 2019-10-12 10:55:44
- * Copyright (C) www.tech-harry.cn
+ * Copyright (C) www.honghh.top
  */
 @Service("sysUserLoginLogService")
 public class SysUserLoginLogServiceImpl extends ServiceImpl<SysUserLoginLogDao, SysUserLoginLog> implements SysUserLoginLogService {

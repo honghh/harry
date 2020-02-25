@@ -18,7 +18,7 @@ import java.util.Map;
  *
  * @author honghh
  * Date 2019-10-12 10:55:44
- * Copyright (C) www.tech-harry.cn
+ * Copyright (C) www.honghh.top
  */
 @Service("sysSmsLogService")
 public class SysSmsLogServiceImpl extends ServiceImpl<SysSmsLogDao, SysSmsLog> implements SysSmsLogService {

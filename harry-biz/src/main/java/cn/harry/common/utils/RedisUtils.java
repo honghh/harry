@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author honghh
  * Date 2019/07/18 14:03
- * Copyright (C) www.tech-harry.cn
+ * Copyright (C) www.honghh.top
  */
 @Component
 public class RedisUtils {

@@ -16,7 +16,7 @@ import java.io.IOException;
  *
  * @author honghh
  * Date 2019/10/08 10:47
- * Copyright (C) www.tech-harry.cn
+ * Copyright (C) www.honghh.top
  */
 @Component
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {

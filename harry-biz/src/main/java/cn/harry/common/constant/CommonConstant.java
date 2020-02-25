@@ -6,7 +6,7 @@ package cn.harry.common.constant;
  *
  * @author honghh
  * Date 2019-10-12 10:58:47
- * Copyright (C) www.tech-harry.cn
+ * Copyright (C) www.honghh.top
  */
 public class CommonConstant {
 
