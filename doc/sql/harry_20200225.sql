@@ -11,23 +11,11 @@
  Target Server Version : 80017
  File Encoding         : 65001
 
- Date: 18/02/2020 16:19:15
+ Date: 25/02/2020 08:38:37
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for sys_area
--- ----------------------------
-DROP TABLE IF EXISTS `sys_area`;
-CREATE TABLE `sys_area` (
-  `id` bigint(20) NOT NULL COMMENT 'ID',
-  `area_name` varchar(50) DEFAULT NULL COMMENT '地区名称',
-  `parent_id` bigint(20) DEFAULT NULL COMMENT '上级id',
-  `level` int(1) DEFAULT NULL COMMENT '层级',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='地区表';
 
 -- ----------------------------
 -- Table structure for sys_captcha
@@ -53,7 +41,7 @@ CREATE TABLE `sys_config` (
   `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '备注',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modify_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `delete_status` int(1) DEFAULT '0' COMMENT '删除状态：0->未删除；1->已删除',
+  `valid` int(1) DEFAULT '1' COMMENT '有效状态：0->无效；1->有效',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='系统配置信息表/枚举值表';
 
@@ -61,15 +49,15 @@ CREATE TABLE `sys_config` (
 -- Records of sys_config
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_config` VALUES (1, 'order_cancel_reason', '1', '质量问题', 1, '质量问题', '2020-02-18 14:07:48', '2020-02-18 15:16:13', 0);
-INSERT INTO `sys_config` VALUES (2, 'order_cancel_reason', '2', '尺码太大', 1, '尺码太大le', '2020-02-18 14:07:48', '2020-02-18 15:16:07', 0);
-INSERT INTO `sys_config` VALUES (3, 'order_cancel_reason', '3', '颜色不喜欢', 1, '颜色不喜欢', '2020-02-18 14:07:48', '2020-02-18 14:08:33', 0);
-INSERT INTO `sys_config` VALUES (4, 'order_cancel_reason', '4', '7天无理由退货', 1, '7天无理由退货', '2020-02-18 14:07:48', '2020-02-18 14:08:33', 0);
-INSERT INTO `sys_config` VALUES (5, 'order_cancel_reason', '5', '价格问题', 1, '价格问题', '2020-02-18 14:07:48', '2020-02-18 14:08:34', 0);
-INSERT INTO `sys_config` VALUES (6, 'order_cancel_reason', '6', '发票问题', 1, '发票问题', '2020-02-18 14:07:48', '2020-02-18 14:08:36', 0);
-INSERT INTO `sys_config` VALUES (7, 'order_cancel_reason', '7', '其他问题', 1, '其他问题', '2020-02-18 14:07:48', '2020-02-18 14:08:35', 0);
-INSERT INTO `sys_config` VALUES (8, 'order_cancel_reason', '8', '物流问题', 1, '物流问题', '2020-02-18 14:07:48', '2020-02-18 14:08:37', 0);
-INSERT INTO `sys_config` VALUES (9, 'order_cancel_reason', '9', '售后问题', 1, '售后问题', '2020-02-18 14:07:48', '2020-02-18 14:08:37', 0);
+INSERT INTO `sys_config` VALUES (1, 'order_cancel_reason', '1', '质量问题', 1, '质量问题', '2020-02-18 14:07:48', '2020-02-18 15:16:13', 1);
+INSERT INTO `sys_config` VALUES (2, 'order_cancel_reason', '2', '尺码太大', 1, '尺码太大le', '2020-02-18 14:07:48', '2020-02-18 15:16:07', 1);
+INSERT INTO `sys_config` VALUES (3, 'order_cancel_reason', '3', '颜色不喜欢', 1, '颜色不喜欢', '2020-02-18 14:07:48', '2020-02-18 14:08:33', 1);
+INSERT INTO `sys_config` VALUES (4, 'order_cancel_reason', '4', '7天无理由退货', 1, '7天无理由退货', '2020-02-18 14:07:48', '2020-02-18 14:08:33', 1);
+INSERT INTO `sys_config` VALUES (5, 'order_cancel_reason', '5', '价格问题', 1, '价格问题', '2020-02-18 14:07:48', '2020-02-18 14:08:34', 1);
+INSERT INTO `sys_config` VALUES (6, 'order_cancel_reason', '6', '发票问题', 1, '发票问题', '2020-02-18 14:07:48', '2020-02-18 14:08:36', 1);
+INSERT INTO `sys_config` VALUES (7, 'order_cancel_reason', '7', '其他问题', 1, '其他问题', '2020-02-18 14:07:48', '2020-02-18 14:08:35', 1);
+INSERT INTO `sys_config` VALUES (8, 'order_cancel_reason', '8', '物流问题', 0, '物流问题', '2020-02-18 14:07:48', '2020-02-21 14:42:10', 1);
+INSERT INTO `sys_config` VALUES (9, 'order_cancel_reason', '9', '售后问题', 1, '售后问题', '2020-02-18 14:07:48', '2020-02-21 14:41:09', 1);
 INSERT INTO `sys_config` VALUES (10, 'order_cancel_reason', '10', '其他问题', 1, '其他问题', '2020-02-18 14:07:48', '2020-02-18 15:15:11', 1);
 COMMIT;
 
@@ -89,16 +77,17 @@ CREATE TABLE `sys_menu` (
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `sort` int(11) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='后台用户权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='后台用户权限表';
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
 BEGIN;
 INSERT INTO `sys_menu` VALUES (1, 0, '系统管理', NULL, 'sys', 0, '/sys', 1, '2018-09-29 16:15:14', 5);
-INSERT INTO `sys_menu` VALUES (11, 1, '角色管理', 'sys:role:read', 'qq', 1, '/sys/role/index', 1, '2018-09-29 16:18:51', 1);
-INSERT INTO `sys_menu` VALUES (12, 1, '菜单管理', 'sys:menu:read', NULL, 1, '/sys/menu/index', 1, '2018-09-29 16:23:07', 2);
-INSERT INTO `sys_menu` VALUES (13, 1, '用户管理', 'sys:user:read', NULL, 1, '/sys/user/index', 1, '2018-09-29 16:17:01', 0);
+INSERT INTO `sys_menu` VALUES (11, 1, '角色管理', 'sys:role:read', 'qq', 1, '/sys/role', 1, '2018-09-29 16:18:51', 1);
+INSERT INTO `sys_menu` VALUES (12, 1, '菜单管理', 'sys:menu:read', NULL, 1, '/sys/menu', 1, '2018-09-29 16:23:07', 2);
+INSERT INTO `sys_menu` VALUES (13, 1, '用户管理', 'sys:user:read', NULL, 1, '/sys/user', 1, '2018-09-29 16:17:01', 0);
+INSERT INTO `sys_menu` VALUES (14, 1, '参数配置', 'sys:config:read', '', 1, '/sys/config', NULL, '2020-02-19 11:42:00', 0);
 COMMIT;
 
 -- ----------------------------
@@ -114,13 +103,14 @@ CREATE TABLE `sys_role` (
   `status` int(1) DEFAULT '1' COMMENT '启用状态：0->禁用；1->启用',
   `sort` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='后台用户角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='后台用户角色表';
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role` VALUES (1, '默认角色', '管理员', NULL, '2019-10-28 14:09:00', 1, 0);
+INSERT INTO `sys_role` VALUES (1, '超级管理员', '超级管理员 admin', NULL, '2019-10-28 14:09:00', 1, 0);
+INSERT INTO `sys_role` VALUES (2, '测试', '测试', NULL, '2020-02-19 11:44:23', 1, 0);
 COMMIT;
 
 -- ----------------------------
@@ -132,13 +122,19 @@ CREATE TABLE `sys_role_menu` (
   `role_id` bigint(20) DEFAULT NULL,
   `menu_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='后台用户角色和权限关系表';
+) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8 COMMENT='后台用户角色和权限关系表';
 
 -- ----------------------------
 -- Records of sys_role_menu
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role_menu` VALUES (1, 1, 1);
+INSERT INTO `sys_role_menu` VALUES (114, 1, 11);
+INSERT INTO `sys_role_menu` VALUES (115, 1, 12);
+INSERT INTO `sys_role_menu` VALUES (116, 1, -666666);
+INSERT INTO `sys_role_menu` VALUES (117, 1, 1);
+INSERT INTO `sys_role_menu` VALUES (118, 2, 14);
+INSERT INTO `sys_role_menu` VALUES (119, 2, -666666);
+INSERT INTO `sys_role_menu` VALUES (120, 2, 1);
 COMMIT;
 
 -- ----------------------------
@@ -158,7 +154,7 @@ CREATE TABLE `sys_sms_log` (
   `source` tinyint(3) DEFAULT NULL COMMENT '来源平台',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modify_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `valid` tinyint(1) DEFAULT '1' COMMENT '是否删除  0：已删除  1：正常',
+  `valid` int(1) DEFAULT '1' COMMENT '有效状态：0->无效；1->有效',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='短信日志表';
 
@@ -176,7 +172,7 @@ CREATE TABLE `sys_sms_template` (
   `content` varchar(255) DEFAULT NULL COMMENT '模板内容',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modify_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `valid` tinyint(1) DEFAULT '1' COMMENT '是否删除  0：已删除  1：正常',
+  `valid` int(1) DEFAULT '1' COMMENT '有效状态：0->无效；1->有效',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `value` (`value`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='短信模板';
@@ -201,15 +197,16 @@ CREATE TABLE `sys_user` (
   `login_ip` varchar(255) DEFAULT NULL COMMENT '最后登陆IP',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modify_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `valid` tinyint(1) DEFAULT '1' COMMENT '是否删除  0：已删除  1：正常',
+  `valid` int(1) DEFAULT '1' COMMENT '有效状态：0->无效；1->有效',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8 COMMENT='后台用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8 COMMENT='后台用户表';
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user` VALUES (1, 'admin', '$2a$10$x3bWW9r16kkukdCZdrVV9exxRerY7R.tf4tAi6flzTyfCCaBg.baS', 1, 'Harry科技', 6, 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', '183865800@qq.com', 'Harry', 'assa的收到dfsd', 1, '2019-09-29 13:55:39', NULL, '2019-09-29 13:55:30', '2020-02-18 13:33:57', 1);
+INSERT INTO `sys_user` VALUES (1, 'admin', '$2a$10$x3bWW9r16kkukdCZdrVV9exxRerY7R.tf4tAi6flzTyfCCaBg.baS', 1, 'Harry科技', 6, 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', '183865800@qq.com', 'Harry', 'assa的收到dfsd s', 1, '2019-09-29 13:55:39', NULL, '2019-09-29 13:55:30', '2020-02-18 13:33:57', 1);
+INSERT INTO `sys_user` VALUES (107, 'test', '$2a$10$x3bWW9r16kkukdCZdrVV9exxRerY7R.tf4tAi6flzTyfCCaBg.baS', 1, 'Harry科技', 6, 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', '183865800@qq.com', 'Harry测试', 'assa的收到dfsd', 1, '2019-09-29 13:55:39', NULL, '2019-09-29 13:55:30', '2020-02-21 14:59:24', 1);
 COMMIT;
 
 -- ----------------------------
@@ -224,51 +221,7 @@ CREATE TABLE `sys_user_login_log` (
   `address` varchar(100) DEFAULT NULL,
   `user_agent` varchar(100) DEFAULT NULL COMMENT '浏览器登录类型',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 COMMENT='后台用户登录日志表';
-
--- ----------------------------
--- Records of sys_user_login_log
--- ----------------------------
-BEGIN;
-INSERT INTO `sys_user_login_log` VALUES (1, 1, '2020-02-13 06:47:06', '0:0:0:0:0:0:0:1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (2, 1, '2020-02-13 06:50:51', '0:0:0:0:0:0:0:1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (3, 1, '2020-02-13 06:51:15', '0:0:0:0:0:0:0:1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (4, 1, '2020-02-13 06:51:34', '0:0:0:0:0:0:0:1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (5, 1, '2020-02-13 06:53:40', '0:0:0:0:0:0:0:1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (6, 1, '2020-02-13 23:15:41', '0:0:0:0:0:0:0:1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (7, 1, '2020-02-13 23:16:29', '0:0:0:0:0:0:0:1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (8, 1, '2020-02-13 23:17:23', '0:0:0:0:0:0:0:1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (9, 1, '2020-02-13 23:17:30', '0:0:0:0:0:0:0:1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (10, 1, '2020-02-13 23:19:03', '0:0:0:0:0:0:0:1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (11, 1, '2020-02-13 23:21:07', '0:0:0:0:0:0:0:1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (12, 1, '2020-02-13 23:22:01', '0:0:0:0:0:0:0:1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (13, 1, '2020-02-13 23:22:07', '0:0:0:0:0:0:0:1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (14, 1, '2020-02-13 23:23:48', '0:0:0:0:0:0:0:1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (15, 1, '2020-02-13 23:27:18', '0:0:0:0:0:0:0:1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (16, 1, '2020-02-13 23:28:42', '0:0:0:0:0:0:0:1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (17, 1, '2020-02-13 23:35:54', '0:0:0:0:0:0:0:1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (18, 1, '2020-02-13 23:36:25', '0:0:0:0:0:0:0:1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (19, 1, '2020-02-13 23:36:55', '0:0:0:0:0:0:0:1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (20, 1, '2020-02-14 01:11:15', '0:0:0:0:0:0:0:1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (21, 1, '2020-02-14 08:13:14', '127.0.0.1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (22, 1, '2020-02-14 08:13:29', '127.0.0.1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (23, 1, '2020-02-14 08:49:43', '127.0.0.1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (24, 1, '2020-02-14 08:52:42', '127.0.0.1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (25, 1, '2020-02-14 08:56:20', '127.0.0.1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (26, 1, '2020-02-14 08:56:35', '127.0.0.1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (27, 1, '2020-02-14 08:57:06', '127.0.0.1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (28, 1, '2020-02-14 08:58:22', '127.0.0.1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (29, 1, '2020-02-14 08:58:33', '127.0.0.1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (30, 1, '2020-02-14 08:59:28', '127.0.0.1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (31, 1, '2020-02-14 20:27:38', '127.0.0.1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (32, 1, '2020-02-14 20:28:51', '127.0.0.1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (33, 1, '2020-02-15 09:39:40', '127.0.0.1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (34, 1, '2020-02-15 23:37:00', '127.0.0.1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (35, 1, '2020-02-15 23:44:22', '127.0.0.1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (36, 1, '2020-02-15 23:47:49', '127.0.0.1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (37, 1, '2020-02-15 23:51:39', '127.0.0.1', NULL, NULL);
-INSERT INTO `sys_user_login_log` VALUES (38, 1, '2020-02-15 23:51:52', '127.0.0.1', NULL, NULL);
-COMMIT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='后台用户登录日志表';
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -279,13 +232,14 @@ CREATE TABLE `sys_user_role` (
   `user_id` bigint(20) DEFAULT NULL,
   `role_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='后台用户和角色关系表';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='后台用户和角色关系表';
 
 -- ----------------------------
 -- Records of sys_user_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user_role` VALUES (1, 1, 1);
+INSERT INTO `sys_user_role` VALUES (13, 1, 1);
+INSERT INTO `sys_user_role` VALUES (15, 107, 2);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
