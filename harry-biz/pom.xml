@@ -28,6 +28,7 @@
         <aliyun.oss.version>2.7.0</aliyun.oss.version>
         <qcloud.cos.version>4.4</qcloud.cos.version>
         <swagger.version>2.9.2</swagger.version>
+        <knife4j.version>2.0.1</knife4j.version>
         <joda.time.version>2.9.9</joda.time.version>
         <fastjson.version>1.2.47</fastjson.version>
         <hutool.version>4.6.1</hutool.version>
@@ -141,31 +142,11 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>${swagger.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.swagger</groupId>
-                    <artifactId>swagger-annotations</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.swagger</groupId>
-                    <artifactId>swagger-models</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${swagger.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>1.5.21</version>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-models</artifactId>
-            <version>1.5.21</version>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>${knife4j.version}</version>
         </dependency>
         <dependency>
             <groupId>com.aliyun.oss</groupId>

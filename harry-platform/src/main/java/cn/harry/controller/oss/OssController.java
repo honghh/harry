@@ -24,20 +24,20 @@ import javax.servlet.http.HttpServletRequest;
  */
 
 @RestController
-@Api(tags = "OssController", description = "Oss管理")
-@RequestMapping("/aliyun/oss")
+@Api(tags = "Oss-aliyun => 文件管理")
+@RequestMapping("/oss/aliyun")
 public class OssController {
     @Resource
     private OssServiceImpl ossService;
 
-    @ApiOperation(value = "oss上传签名生成")
+    @ApiOperation(value = "policy => 上传签名生成")
     @RequestMapping(value = "/policy", method = RequestMethod.GET)
     public CommonResult<OssPolicyResult> policy() {
         OssPolicyResult result = ossService.policy();
         return CommonResult.success(result);
     }
 
-    @ApiOperation(value = "oss上传成功回调")
+    @ApiOperation(value = "callback => 上传成功回调")
     @RequestMapping(value = "callback", method = RequestMethod.POST)
     public CommonResult<OssCallbackResult> callback(HttpServletRequest request) {
         OssCallbackResult ossCallbackResult = ossService.callback(request);

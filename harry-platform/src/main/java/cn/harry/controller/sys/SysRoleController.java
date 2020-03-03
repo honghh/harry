@@ -23,14 +23,14 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/sys/role")
-@Api(tags = "SysRoleController", description = "角色管理")
+@Api(tags = "Sys-role => 角色管理")
 public class SysRoleController {
     @Resource
     private SysRoleMenuService sysRoleMenuService;
     @Resource
     private SysRoleService sysRoleService;
 
-    @ApiOperation("根据名获取角色列表")
+    @ApiOperation("list => 根据名获取角色列表")
     @GetMapping(value = "/list")
     public CommonResult<CommonPage<SysRole>> list(@RequestParam(value = "keyword", required = false) String name,
                                                   @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
@@ -39,9 +39,9 @@ public class SysRoleController {
         return CommonResult.success(CommonPage.restPage(roles));
     }
 
-    @ApiOperation("修改指定角色信息")
+    @ApiOperation("create => 创建指定角色信息")
     @PostMapping(value = "/create")
-    public CommonResult update(@RequestBody SysRole sysRole) {
+    public CommonResult create(@RequestBody SysRole sysRole) {
         int count = sysRoleService.create(sysRole);
         if (count > 0) {
             return CommonResult.success(count);
@@ -49,7 +49,7 @@ public class SysRoleController {
         return CommonResult.failed();
     }
 
-    @ApiOperation("修改指定角色信息")
+    @ApiOperation("update/{id} => 修改指定角色信息")
     @PutMapping(value = "/update/{id}")
     public CommonResult update(@PathVariable Long id, @RequestBody SysRole sysRole) {
         int count = sysRoleService.update(id, sysRole);
@@ -59,7 +59,7 @@ public class SysRoleController {
         return CommonResult.failed();
     }
 
-    @ApiOperation("删除指定角色信息")
+    @ApiOperation("delete/{id} => 删除指定角色信息")
     @DeleteMapping(value = "/delete/{id}")
     public CommonResult delete(@PathVariable Long id) {
         int count = sysRoleService.delete(id);
@@ -69,7 +69,7 @@ public class SysRoleController {
         return CommonResult.failed();
     }
 
-    @ApiOperation("角色信息")
+    @ApiOperation("info/{roleId} => 角色信息")
     @GetMapping("/info/{roleId}")
     public CommonResult<SysRole> info(@PathVariable("roleId") Long roleId){
         SysRole role = sysRoleService.getById(roleId);

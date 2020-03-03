@@ -28,7 +28,7 @@ import java.util.Objects;
  * Copyright (C) www.honghh.top
  */
 @RestController
-@Api(tags = "SysUserController", description = "后台用户管理")
+@Api(tags = "Sys-user => 后台用户管理")
 @RequestMapping("/sys/user")
 public class SysUserController {
     @Resource
@@ -38,7 +38,7 @@ public class SysUserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @ApiOperation("根据用户名或姓名分页获取用户列表")
+    @ApiOperation("list => 根据用户名或姓名分页获取用户列表")
     @GetMapping(value = "/list")
     public CommonResult<CommonPage<SysUser>> list(@RequestParam(value = "keyword", required = false) String name,
                                                   @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
@@ -47,7 +47,7 @@ public class SysUserController {
         return CommonResult.success(CommonPage.restPage(adminList));
     }
 
-    @ApiOperation("用户信息")
+    @ApiOperation("info/{id} => 用户信息")
     @GetMapping("/info/{id}")
     public CommonResult<SysUser> info(@PathVariable("id") Long id) {
         SysUser user = sysUserService.getUserById(id);
@@ -57,7 +57,7 @@ public class SysUserController {
         return CommonResult.success(user);
     }
 
-    @ApiOperation("修改指定用户信息")
+    @ApiOperation("update/{id} => 修改指定用户信息")
     @PutMapping(value = "/update/{id}")
     public CommonResult<Integer> update(@PathVariable Long id, @RequestBody SysUser user) {
         String password = user.getPassword();
@@ -81,7 +81,7 @@ public class SysUserController {
         return CommonResult.failed();
     }
 
-    @ApiOperation("修改用户状态")
+    @ApiOperation("update/status/{id} => 修改用户状态")
     @PutMapping(value = "/update/status/{id}")
     public CommonResult<Integer> update(@PathVariable Long id, Integer status) {
         int count = sysUserService.updateStatus(id, status);
@@ -91,7 +91,7 @@ public class SysUserController {
         return CommonResult.failed();
     }
 
-    @ApiOperation(value = "修改密码", notes = "修改当前登陆用户的密码")
+    @ApiOperation(value = "updatePassword => 修改密码", notes = "修改当前登陆用户的密码")
     @PutMapping(value = "/updatePassword")
     public CommonResult<Integer> updatePassword(@RequestBody SysUserUpdatePasswordParam passwordParam) {
         Long userId = SysUserUtils.getSysUser().getId();
@@ -110,7 +110,7 @@ public class SysUserController {
 
     }
 
-    @ApiOperation("删除指定用户信息")
+    @ApiOperation("delete/{id} => 删除指定用户信息")
     @DeleteMapping(value = "/delete/{id}")
     public CommonResult<Integer> delete(@PathVariable Long id) {
         int count = sysUserService.delete(id);

@@ -26,13 +26,13 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("/sys/menu")
-@Api(tags = "SysMenuController", description = "系统菜单管理")
+@Api(tags = "Sys-menu => 系统菜单管理")
 public class SysMenuController {
     @Resource
     private SysMenuService sysMenuService;
 
     @GetMapping("/nav")
-    @ApiOperation(value = "获取用户所拥有的菜单和权限", notes = "通过登陆用户的userId获取用户所拥有的菜单和权限")
+    @ApiOperation(value = "nav => 获取用户所拥有的菜单和权限", notes = "通过登陆用户的userId获取用户所拥有的菜单和权限")
     public CommonResult nav() {
         List<SysMenu> menuList = sysMenuService.listMenuByUserId(SysUserUtils.getSysUser().getId());
         Map<String, Object> map = new HashMap<>();
@@ -41,7 +41,7 @@ public class SysMenuController {
     }
 
 
-    @ApiOperation("所有菜单列表")
+    @ApiOperation("list => 所有菜单列表")
     @GetMapping("/list")
     public CommonResult<List<SysMenu>> list() {
         List<SysMenu> menuList = sysMenuService.list();
@@ -51,21 +51,21 @@ public class SysMenuController {
     /**
      * 所有菜单列表(用于新建、修改角色时 获取菜单的信息)
      */
+    @ApiOperation(value = "listSimpleMenuNoButton => 获取用户所拥有的菜单(不包括按钮)", notes = "通过登陆用户的userId获取用户所拥有的菜单和权限")
     @GetMapping("/listSimpleMenuNoButton")
-    @ApiOperation(value = "获取用户所拥有的菜单(不包括按钮)", notes = "通过登陆用户的userId获取用户所拥有的菜单和权限")
     public CommonResult<List<SysMenu>> listSimpleMenuNoButton() {
         List<SysMenu> sysMenuList = sysMenuService.listSimpleMenuNoButton();
         return CommonResult.success(sysMenuList);
     }
 
-    @ApiOperation("菜单信息")
+    @ApiOperation("info/{id} => 菜单信息")
     @GetMapping("/info/{id}")
     public CommonResult<SysMenu> info(@PathVariable("id") Long id) {
         SysMenu menu = sysMenuService.getById(id);
         return CommonResult.success(menu);
     }
 
-    @ApiOperation("删除指定菜单信息")
+    @ApiOperation("delete/{id} => 删除指定菜单信息")
     @DeleteMapping(value = "/delete/{id}")
     public CommonResult delete(@PathVariable Long id) {
         if (id <= CommonConstant.SYS_MENU_MAX_ID) {
@@ -87,7 +87,7 @@ public class SysMenuController {
      * 保存
      */
 
-    @ApiOperation("保存指定菜单信息")
+    @ApiOperation("create => 保存指定菜单信息")
     @PostMapping(value = "/create")
     public CommonResult save(@Valid @RequestBody SysMenu menu) {
         //数据校验
@@ -100,7 +100,7 @@ public class SysMenuController {
      * 修改
      */
 
-    @ApiOperation("修改指定菜单信息")
+    @ApiOperation("update/{id} => 修改指定菜单信息")
     @PutMapping(value = "/update/{id}")
     public CommonResult<String> update(@PathVariable Long id, @Valid @RequestBody SysMenu menu) {
         //数据校验

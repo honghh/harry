@@ -26,7 +26,7 @@ import java.util.Map;
  * Copyright (C) www.honghh.top
  */
 @RestController
-@Api(tags = "SysLoginController", description = "后台用户管理")
+@Api(tags = "Sys-admin => 后台用户管理")
 @RequestMapping("/admin")
 public class SysLoginController {
     @Resource
@@ -34,7 +34,7 @@ public class SysLoginController {
     @Resource
     private JwtTokenUtil jwtTokenUtil;
 
-    @ApiOperation(value = "登录以后返回token")
+    @ApiOperation(value = "login => 登录以后返回token")
     @PostMapping(value = "/login")
     public CommonResult<Map<String, String>> login(@RequestBody SysUserLoginParam sysUserLoginParam) {
         String token = sysUserService.login(sysUserLoginParam.getUsername(), sysUserLoginParam.getPassword());
@@ -47,7 +47,7 @@ public class SysLoginController {
         return CommonResult.success(tokenMap);
     }
 
-    @ApiOperation(value = "刷新token")
+    @ApiOperation(value = "token/refresh => 刷新token")
     @GetMapping(value = "/token/refresh")
     public CommonResult<Map<String, String>> refreshToken(HttpServletRequest request) {
         String token = request.getHeader(jwtTokenUtil.getTokenHeader());
@@ -61,7 +61,7 @@ public class SysLoginController {
         return CommonResult.success(tokenMap);
     }
 
-    @ApiOperation(value = "获取当前登录用户信息")
+    @ApiOperation(value = "info => 获取当前登录用户信息")
     @GetMapping(value = "/info")
     public CommonResult<Map<String, Object>> getInfo(Principal principal) {
         String username = principal.getName();
@@ -73,7 +73,7 @@ public class SysLoginController {
         return CommonResult.success(data);
     }
 
-    @ApiOperation(value = "登出功能")
+    @ApiOperation(value = "logout => 登出功能")
     @PostMapping(value = "/logout")
     public CommonResult logout() {
         SecurityContextHolder.clearContext();
