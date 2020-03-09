@@ -1,7 +1,6 @@
 package cn.harry.common.utils;
 
 import cn.harry.sys.entity.SysUser;
-import cn.harry.sys.vo.SysUserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;

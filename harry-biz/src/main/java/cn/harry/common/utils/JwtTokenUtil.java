@@ -10,6 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -121,14 +122,10 @@ public class JwtTokenUtil {
 
     /**
      * 根据用户信息生成token
+     *
+     * @param username
+     * @return
      */
-    public String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
-        claims.put(CLAIM_KEY_CREATED, new Date());
-        return generateToken(claims);
-    }
-
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
         claims.put(CLAIM_KEY_USERNAME, username);
@@ -150,5 +147,13 @@ public class JwtTokenUtil {
         Claims claims = getClaimsFromToken(token);
         claims.put(CLAIM_KEY_CREATED, new Date());
         return generateToken(claims);
+    }
+
+    public String getToken(HttpServletRequest request) {
+        final String requestHeader = request.getHeader(tokenHeader);
+        if (requestHeader != null && requestHeader.startsWith(tokenHead)) {
+            return requestHeader.substring(7);
+        }
+        return null;
     }
 }

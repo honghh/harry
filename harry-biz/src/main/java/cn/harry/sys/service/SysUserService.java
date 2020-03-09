@@ -3,6 +3,8 @@ package cn.harry.sys.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import cn.harry.sys.entity.SysUser;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 后台用户表
  *
@@ -25,9 +27,10 @@ public interface SysUserService {
      *
      * @param username 用户名
      * @param password 密码
+     * @param request
      * @return 生成的JWT的token
      */
-    String login(String username, String password);
+    String login(String username, String password, HttpServletRequest request);
 
     /**
      * 刷新token的功能

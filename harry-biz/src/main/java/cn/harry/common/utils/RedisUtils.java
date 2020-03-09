@@ -3,6 +3,8 @@ package cn.harry.common.utils;
 import cn.harry.config.RedisConfig;
 import cn.hutool.core.date.DateUtil;
 import com.google.gson.Gson;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +12,9 @@ import javax.annotation.Resource;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -127,9 +132,32 @@ public class RedisUtils {
         Long i = stringRedisTemplate.opsForValue().increment(prefix + key);
         if (i != null && i == 1L) {
             String key2 = new SimpleDateFormat("yyyyMMdd").format(DateUtil.yesterday());
-            System.out.println("key2:  "+key2);
+            System.out.println("key2:  " + key2);
             delete(prefix + key2);
         }
         return i;
+    }
+
+    /**
+     * 查找匹配key
+     *
+     * @param pattern key
+     * @return /
+     */
+    public List<String> scan(String pattern) {
+        ScanOptions options = ScanOptions.scanOptions().match(pattern).build();
+        RedisConnectionFactory factory = redisTemplate.getConnectionFactory();
+        RedisConnection rc = Objects.requireNonNull(factory).getConnection();
+        Cursor<byte[]> cursor = rc.scan(options);
+        List<String> result = new ArrayList<>();
+        while (cursor.hasNext()) {
+            result.add(new String(cursor.next()));
+        }
+        try {
+            RedisConnectionUtils.releaseConnection(rc, factory);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

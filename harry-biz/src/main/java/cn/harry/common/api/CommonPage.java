@@ -3,6 +3,7 @@ package cn.harry.common.api;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.data.domain.Page;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,6 +41,46 @@ public class CommonPage<T> {
         result.setTotal(pageInfo.getTotal());
         result.setList(pageInfo.getRecords());
         return result;
+    }
+
+    /**
+     * List 转 分页
+     *
+     * @param pageNum
+     * @param pageSize
+     * @param onlineUsers
+     * @param <T>
+     * @return
+     */
+    public static <T> CommonPage<T> listToPage(Integer pageNum, Integer pageSize, List<T> onlineUsers) {
+        CommonPage<T> page = new CommonPage<>();
+        int totalCount = onlineUsers.size();
+        page.setList(toPage(pageNum, pageSize, onlineUsers));
+
+        page.setTotal((long) totalCount);
+        page.setPageNum(pageNum);
+        page.setPageSize(pageSize);
+
+        long totalPage = totalCount % pageSize == 0 ? (totalCount / pageSize) : (totalCount / pageSize + 1);
+        page.setTotalPage((int) totalPage);
+        return page;
+    }
+
+
+    /**
+     * List 分页
+     */
+    public static <T> List<T> toPage(int page, int size, List<T> list) {
+        page = page - 1;
+        int fromIndex = page * size;
+        int toIndex = page * size + size;
+        if (fromIndex > list.size()) {
+            return new ArrayList<T>();
+        } else if (toIndex >= list.size()) {
+            return list.subList(fromIndex, list.size());
+        } else {
+            return list.subList(fromIndex, toIndex);
+        }
     }
 
     public Integer getPageNum() {

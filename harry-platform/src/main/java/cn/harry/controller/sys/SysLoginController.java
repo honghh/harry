@@ -5,6 +5,7 @@ import cn.harry.common.utils.JwtTokenUtil;
 import cn.harry.common.utils.SysUserUtils;
 import cn.harry.sys.entity.SysUser;
 import cn.harry.sys.param.SysUserLoginParam;
+import cn.harry.sys.service.OnlineUserService;
 import cn.harry.sys.service.SysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,24 +26,27 @@ import java.util.Map;
  * Copyright (C) www.honghh.top
  */
 @RestController
-@Api(tags = "Sys-admin => 后台用户管理")
+@Api(tags = "Sys-admin => 后台登陆注销管理")
 @RequestMapping("/admin")
 public class SysLoginController {
     @Resource
     private SysUserService sysUserService;
     @Resource
+    private OnlineUserService onlineUserService;
+    @Resource
     private JwtTokenUtil jwtTokenUtil;
 
     @ApiOperation(value = "login => 登录以后返回token")
     @PostMapping(value = "/login")
-    public CommonResult<Map<String, String>> login(@RequestBody SysUserLoginParam sysUserLoginParam) {
-        String token = sysUserService.login(sysUserLoginParam.getUsername(), sysUserLoginParam.getPassword());
+    public CommonResult<Map<String, String>> login(@RequestBody SysUserLoginParam sysUserLoginParam,HttpServletRequest request) {
+        String token = sysUserService.login(sysUserLoginParam.getUsername(), sysUserLoginParam.getPassword(),request);
         if (token == null) {
             return CommonResult.validateFailed("用户名或密码错误");
         }
         Map<String, String> tokenMap = new HashMap<>();
         tokenMap.put("token", token);
         tokenMap.put("tokenHead", jwtTokenUtil.getTokenHead());
+        tokenMap.put("expiration", jwtTokenUtil.getExpiration());
         return CommonResult.success(tokenMap);
     }
 
@@ -58,26 +61,27 @@ public class SysLoginController {
         Map<String, String> tokenMap = new HashMap<>();
         tokenMap.put("token", refreshToken);
         tokenMap.put("tokenHead", jwtTokenUtil.getTokenHead());
+        tokenMap.put("expiration", jwtTokenUtil.getExpiration());
         return CommonResult.success(tokenMap);
     }
 
     @ApiOperation(value = "info => 获取当前登录用户信息")
     @GetMapping(value = "/info")
-    public CommonResult<Map<String, Object>> getInfo(Principal principal) {
-        String username = principal.getName();
-        SysUser umsAdmin = sysUserService.getByUserName(username);
+    public CommonResult<Map<String, Object>> getInfo() {
+        SysUser user = SysUserUtils.getSysUser();
         Map<String, Object> data = new HashMap<>();
-        data.put("name", umsAdmin.getUsername());
+        data.put("name", user.getUsername());
         data.put("roles", SysUserUtils.getAuthorities());
-        data.put("avatar", umsAdmin.getIcon());
+        data.put("avatar", user.getIcon());
         return CommonResult.success(data);
     }
 
     @ApiOperation(value = "logout => 登出功能")
     @PostMapping(value = "/logout")
-    public CommonResult logout() {
+    public CommonResult logout(HttpServletRequest request) throws Exception {
+        onlineUserService.logout(jwtTokenUtil.getToken(request));
         SecurityContextHolder.clearContext();
-        return CommonResult.success(null);
+        return CommonResult.success();
     }
 
 

@@ -9,7 +9,7 @@ import cn.harry.component.RestfulAccessDeniedHandler;
 import cn.harry.sys.entity.SysUser;
 import cn.harry.sys.service.SysMenuService;
 import cn.harry.sys.service.SysUserService;
-import cn.harry.sys.vo.SysUserDetails;
+import cn.harry.common.utils.SysUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

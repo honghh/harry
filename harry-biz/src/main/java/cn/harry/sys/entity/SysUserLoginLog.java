@@ -2,10 +2,13 @@ package cn.harry.sys.entity;
 
 import cn.hutool.core.date.DatePattern;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -18,6 +21,8 @@ import java.util.Date;
  * Copyright (C) www.honghh.top
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @TableName("sys_user_login_log")
 public class SysUserLoginLog implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -27,10 +32,39 @@ public class SysUserLoginLog implements Serializable {
      */
     @TableId
     private Long id;
+
+    @ApiModelProperty(value = "key")
+    private String keyword;
     /**
-     *
+     * 用户ID
      */
-    private Long adminId;
+    private Long userId;
+    /**
+     * 用户名
+     */
+    @ApiModelProperty(value = "用户名")
+    private String username;
+    /**
+     * 用户昵称
+     */
+    @ApiModelProperty(value = "用户昵称")
+    private String nickName;
+
+    /**
+     * 登陆IP
+     */
+    @ApiModelProperty(value = "登陆IP")
+    private String ip;
+    /**
+     * 登陆地点
+     */
+    @ApiModelProperty(value = "登陆地点")
+    private String address;
+    /**
+     * 浏览器登录类型
+     */
+    @ApiModelProperty(value = "浏览器登录类型")
+    private String userAgent;
     /**
      * 创建时间
      */
@@ -38,17 +72,27 @@ public class SysUserLoginLog implements Serializable {
     @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
     private Date createTime;
     /**
-     *
+     * 修改时间
      */
-    private String ip;
+    @ApiModelProperty(value = "修改时间")
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
+    private Date modifyTime;
     /**
-     *
+     * 有效状态：0->无效；1->有效
      */
-    private String address;
-    /**
-     * 浏览器登录类型
-     */
-    @ApiModelProperty(value = "浏览器登录类型")
-    private String userAgent;
+    @ApiModelProperty(value = "有效状态：0->无效；1->有效")
+    @TableLogic
+    private Integer valid;
 
+    public SysUserLoginLog(String keyword, Long userId, String username, String nickName, String ip, String address, String userAgent, Date createTime, Date modifyTime) {
+        this.keyword = keyword;
+        this.userId = userId;
+        this.username = username;
+        this.nickName = nickName;
+        this.ip = ip;
+        this.address = address;
+        this.userAgent = userAgent;
+        this.createTime = createTime;
+        this.modifyTime = modifyTime;
+    }
 }

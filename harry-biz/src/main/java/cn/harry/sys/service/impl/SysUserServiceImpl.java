@@ -1,8 +1,10 @@
 package cn.harry.sys.service.impl;
 
 import cn.harry.common.utils.JwtTokenUtil;
+import cn.harry.common.utils.SysUserUtils;
 import cn.harry.sys.dao.SysUserDao;
 import cn.harry.sys.entity.SysUser;
+import cn.harry.sys.service.OnlineUserService;
 import cn.harry.sys.service.SysUserRoleService;
 import cn.harry.sys.service.SysUserService;
 import cn.hutool.core.util.StrUtil;
@@ -21,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 后台用户表
@@ -41,6 +44,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
     private JwtTokenUtil jwtTokenUtil;
     @Resource
     private SysUserRoleService sysUserRoleService;
+    @Resource
+    private OnlineUserService onlineUserService;
 
 
     @Override
@@ -49,7 +54,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
     }
 
     @Override
-    public String login(String username, String password) {
+    public String login(String username, String password, HttpServletRequest request) {
         String token = null;
         //密码需要客户端加密后传递
         try {
@@ -59,7 +64,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
             }
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            token = jwtTokenUtil.generateToken(userDetails);
+            token = jwtTokenUtil.generateToken(userDetails.getUsername());
+
+            SysUser sysUser = SysUserUtils.getSysUser();
+            // 保存在线信息
+            onlineUserService.save(sysUser, token, jwtTokenUtil.getExpiration(), request);
+
+            boolean singleLogin = false;
+
+            if (singleLogin) {
+                //踢掉之前已经登录的token
+                onlineUserService.checkLoginOnUser(sysUser.getUsername(), token);
+            }
         } catch (AuthenticationException e) {
             log.warn("登录异常:{}", e.getMessage());
         }
