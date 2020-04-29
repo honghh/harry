@@ -10,6 +10,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+
 
 /**
  * 系统配置信息表/枚举值表
@@ -23,16 +25,22 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfig> i
 
 
     @Override
-    public IPage<SysConfig> getPage(String keyword, Integer pageSize, Integer pageNum) {
-        LambdaQueryWrapper<SysConfig> wrapper = new LambdaQueryWrapper<>();
-        if (StrUtil.isNotEmpty(keyword)) {
-            wrapper.like(SysConfig::getParamKey, keyword)
-                    .or()
-                    .like(SysConfig::getParamName, keyword)
-                    .or()
-                    .like(SysConfig::getParamName, keyword);
+    public IPage<SysConfig> getPage(SysConfig sysConfig, Integer pageSize, Integer pageNum) {
+        LambdaQueryWrapper<SysConfig> wrapper = new LambdaQueryWrapper<>(sysConfig);
+
+        if (StrUtil.isNotEmpty(sysConfig.getBeginTime())) {
+            wrapper.gt(SysConfig::getCreateTime, sysConfig.getBeginTime());
+        }
+
+        if (StrUtil.isNotEmpty(sysConfig.getEndTime())) {
+            wrapper.lt(SysConfig::getCreateTime, sysConfig.getEndTime());
         }
         return page(new Page<>(pageNum, pageSize), wrapper);
+    }
+
+    @Override
+    public SysConfig selectById(Long id) {
+        return this.baseMapper.selectById(id);
     }
 
     @Override
@@ -41,7 +49,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfig> i
     }
 
     @Override
-    public int updateStatus(Long id, Integer status) {
+    public int updateStatus(Long id, String status) {
         SysConfig config = new SysConfig();
         config.setId(id);
         config.setStatus(status);
@@ -57,5 +65,10 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfig> i
     public int update(Long id, SysConfig sysConfig) {
         sysConfig.setId(id);
         return this.baseMapper.updateById(sysConfig);
+    }
+
+    @Override
+    public int deleteByIds(Long[] ids) {
+        return this.baseMapper.deleteBatchIds(Arrays.asList(ids));
     }
 }

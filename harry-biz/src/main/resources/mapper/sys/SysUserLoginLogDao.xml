@@ -3,15 +3,19 @@
 
 <mapper namespace="cn.harry.sys.dao.SysUserLoginLogDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="cn.harry.sys.entity.SysUserLoginLog" id="sysAdminLoginLogMap">
         <result property="id" column="id"/>
-        <result property="adminId" column="admin_id"/>
+        <result property="userId" column="user_id"/>
         <result property="createTime" column="create_time"/>
         <result property="ip" column="ip"/>
         <result property="address" column="address"/>
         <result property="userAgent" column="user_agent"/>
     </resultMap>
+
+    <update id="clean">
+        truncate table sys_user_login_log
+    </update>
 
 
 </mapper>

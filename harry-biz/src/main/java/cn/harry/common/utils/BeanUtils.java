@@ -59,4 +59,16 @@ public class BeanUtils {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * * 判断一个对象是否为空
+     *
+     * @param object Object
+     * @return true：为空 false：非空
+     */
+    public static boolean isNull(Object object)
+    {
+        return object == null;
+    }
+
 }

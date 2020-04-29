@@ -14,15 +14,24 @@ public interface SysConfigService {
     /**
      * 分页获取字典
      *
-     * @param keyword
+     * @param sysConfig
      * @param pageSize
      * @param pageNum
      * @return
      */
-    IPage<SysConfig> getPage(String keyword, Integer pageSize, Integer pageNum);
+    IPage<SysConfig> getPage(SysConfig sysConfig, Integer pageSize, Integer pageNum);
+
 
     /**
+     * 获取系统配置信息
+     *
+     * @param id
+     * @return
+     */
+    SysConfig selectById(Long id);
+    /**
      * 新建配置参数
+     *
      * @param sysConfig
      * @return
      */
@@ -30,14 +39,16 @@ public interface SysConfigService {
 
     /**
      * 修改配置参数状态
+     *
      * @param id
      * @param status
      * @return
      */
-    int updateStatus(Long id, Integer status);
+    int updateStatus(Long id, String status);
 
     /**
      * 删除指定配置参数
+     *
      * @param id
      * @return
      */
@@ -45,10 +56,20 @@ public interface SysConfigService {
 
     /**
      * 修改指定配置参数
+     *
      * @param id
      * @param sysConfig
      * @return
      */
     int update(Long id, SysConfig sysConfig);
+
+    /**
+     * 批量删除
+     *
+     * @param ids
+     * @return
+     */
+    int deleteByIds(Long[] ids);
+
 }
 

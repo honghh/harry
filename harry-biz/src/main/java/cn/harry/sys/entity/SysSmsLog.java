@@ -63,7 +63,7 @@ public class SysSmsLog implements Serializable {
      * 结果成功失败 0 失败 1 成功
      */
     @ApiModelProperty(value = "结果成功失败 0 失败 1 成功")
-    private Integer status;
+    private String status;
     /**
      * 第三方返回结果
      */

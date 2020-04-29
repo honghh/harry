@@ -1,6 +1,7 @@
 package cn.harry.sys.service.impl;
 
 import cn.harry.sys.dao.SysSmsLogDao;
+import cn.harry.sys.enums.StatusEnums;
 import cn.harry.sys.vo.SmsTemplateDto;
 import com.alibaba.fastjson.JSON;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
@@ -29,9 +30,9 @@ public class SysSmsLogServiceImpl extends ServiceImpl<SysSmsLogDao, SysSmsLog> i
     public Boolean addSmsLog(SmsParam smsParam, SmsTemplateDto smsTemplate, SendSmsResponse sendSmsResponse) {
         SysSmsLog smsLog = new SysSmsLog();
         if (SMS_CODE.equals(sendSmsResponse.getCode())) {
-            smsLog.setStatus(1);
+            smsLog.setStatus(StatusEnums.ENABLE.getKey());
         } else {
-            smsLog.setStatus(0);
+            smsLog.setStatus(StatusEnums.DISABLE.getKey());
         }
         smsLog.setMobiles(String.join(",", smsParam.getMobileList()));
         smsLog.setParam(JSON.toJSONString(smsParam.getParams()));

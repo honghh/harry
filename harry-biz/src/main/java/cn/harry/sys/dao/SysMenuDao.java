@@ -19,7 +19,7 @@ public interface SysMenuDao extends BaseMapper<SysMenu> {
 
 
     /**
-     * 获取用户所有权限(包括+-权限)
+     * 获取用户所有权限
      *
      * @param userId
      * @return
@@ -28,8 +28,25 @@ public interface SysMenuDao extends BaseMapper<SysMenu> {
 
     /**
      * 查询用户的所有菜单ID
+     *
      * @param userId 用户id
      * @return 该用户所有可用的菜单
      */
     List<SysMenu> listMenuByUserId(@Param("userId") Long userId);
+
+    /**
+     * 根据用户ID查询菜单
+     *
+     * @param userId
+     * @return
+     */
+    List<SysMenu> selectMenuTreeByUserId(@Param("userId") Long userId);
+
+    /**
+     * 根据角色ID查询菜单树信息
+     *
+     * @param roleId 角色ID
+     * @return 选中菜单列表
+     */
+    List<Integer> selectMenuListByRoleId(@Param("roleId") Long roleId);
 }

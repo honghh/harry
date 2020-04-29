@@ -36,5 +36,12 @@ public interface SysUserRoleService extends IService<SysUserRole> {
      * @return
      */
     void delAndCreateRole(Long userId, List<Long> roleIdList);
+
+    /**
+     * 根据用户ID 获取权限标识
+     * @param id
+     * @return
+     */
+    List<Integer> listDataScopesByUserId(Long id);
 }
 

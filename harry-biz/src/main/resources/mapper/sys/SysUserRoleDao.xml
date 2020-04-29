@@ -15,6 +15,15 @@
             (#{userId},#{roleId})
         </foreach>
     </insert>
+    <select id="listDataScopesByUserId" resultType="java.lang.Integer">
+        SELECT DISTINCT
+            r.data_scope
+        FROM
+            sys_user_role u
+            LEFT JOIN sys_role r ON u.role_id = r.id
+        WHERE
+            u.user_id = #{userId}
+    </select>
 
 
 </mapper>

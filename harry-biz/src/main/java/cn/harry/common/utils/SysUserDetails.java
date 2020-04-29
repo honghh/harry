@@ -2,6 +2,7 @@ package cn.harry.common.utils;
 
 import cn.harry.sys.entity.SysMenu;
 import cn.harry.sys.entity.SysUser;
+import cn.harry.sys.enums.StatusEnums;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Description: SpringSecurity需要的用户详情
+ * Description: SpringSecurity 需要的用户详情
  *
  * @author honghh
  * Date 2019/08/14 15:00
@@ -20,18 +21,17 @@ import java.util.stream.Collectors;
  */
 public class SysUserDetails implements UserDetails {
     private SysUser sysUser;
-    private List<SysMenu> permissionList;
+    private List<SysMenu> permissions;
 
-    public SysUserDetails(SysUser sysUser, List<SysMenu> permissionList) {
+    public SysUserDetails(SysUser sysUser, List<SysMenu> permissions) {
         this.sysUser = sysUser;
-        this.permissionList = permissionList;
+        this.permissions = permissions;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         //返回当前用户的权限
-        return permissionList.stream()
-                .filter(item -> item != null && StrUtil.isNotEmpty(item.getValue()))
+        return permissions.stream().filter(item -> item != null && StrUtil.isNotEmpty(item.getValue()))
                 .map(item -> new SimpleGrantedAuthority(item.getValue()))
                 .collect(Collectors.toList());
     }
@@ -47,24 +47,42 @@ public class SysUserDetails implements UserDetails {
         return sysUser.getUsername();
     }
 
+    /**
+     * 账户是否未过期,过期无法验证
+     */
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    /**
+     * 指定用户是否解锁,锁定的用户无法进行身份验证
+     *
+     * @return
+     */
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    /**
+     * 指示是否已过期的用户的凭据(密码),过期的凭据防止认证
+     *
+     * @return
+     */
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    /**
+     * 是否可用 ,禁用的用户不能身份验证
+     *
+     * @return
+     */
     @Override
     public boolean isEnabled() {
-        return sysUser.getStatus().equals(1);
+        return StatusEnums.ENABLE.getKey().equals(sysUser.getStatus());
     }
 
     public SysUser getSysUser() {
@@ -75,11 +93,11 @@ public class SysUserDetails implements UserDetails {
         this.sysUser = sysUser;
     }
 
-    public List<SysMenu> getPermissionList() {
-        return permissionList;
+    public List<SysMenu> getPermissions() {
+        return permissions;
     }
 
-    public void setPermissionList(List<SysMenu> permissionList) {
-        this.permissionList = permissionList;
+    public void setPermissions(List<SysMenu> permissions) {
+        this.permissions = permissions;
     }
 }

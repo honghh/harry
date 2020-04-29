@@ -22,4 +22,12 @@ public interface SysUserRoleDao extends BaseMapper<SysUserRole> {
      * @param roleIdList
      */
     void insertUserAndUserRole(@Param("userId") Long userId, @Param("roleIdList") List<Long> roleIdList);
+
+
+    /**
+     * 根据用户ID 获取角色数据权限标识
+     * @param userId
+     * @return
+     */
+    List<Integer> listDataScopesByUserId(Long userId);
 }

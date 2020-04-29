@@ -1,5 +1,7 @@
 package cn.harry.sys.service.impl;
 
+import cn.harry.common.annotation.DataScope;
+import cn.harry.common.constant.CommonConstant;
 import cn.harry.common.utils.JwtTokenUtil;
 import cn.harry.common.utils.SysUserUtils;
 import cn.harry.sys.dao.SysUserDao;
@@ -21,9 +23,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.Map;
 
 /**
  * 后台用户表
@@ -33,7 +38,7 @@ import javax.servlet.http.HttpServletRequest;
  * Copyright (C) www.honghh.top
  */
 @Slf4j
-@Service("sysAdminService")
+@Service("sysUserService")
 public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> implements SysUserService {
 
     @Resource
@@ -109,18 +114,46 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
     }
 
     @Override
-    public IPage<SysUser> getPage(String name, Integer pageSize, Integer pageNum) {
+    @DataScope(userId = "id")
+    public IPage<SysUser> getPage(Map<String, Object> params) {
+        int pageSize = Integer.parseInt(String.valueOf(params.get("pageSize")));
+        int pageNum = Integer.parseInt(String.valueOf(params.get("pageNum")));
+
+        String username = (String) params.get("username");
+        String phone = (String) params.get("phone");
+        String deptId = (String) params.get("deptId");
+        String beginTime = (String) params.get("beginTime");
+        String endTime = (String) params.get("endTime");
+        String status = (String) params.get("status");
+
         LambdaQueryWrapper<SysUser> wrapper = new LambdaQueryWrapper<>();
-        if (StrUtil.isNotEmpty(name)) {
-            wrapper.like(SysUser::getUsername, name).or().like(SysUser::getNickName, name);
+        if (StrUtil.isNotEmpty(username)) {
+            wrapper.like(SysUser::getUsername, username);
         }
+        if (StrUtil.isNotEmpty(phone)) {
+            wrapper.like(SysUser::getPhone, phone);
+        }
+        if (StrUtil.isNotEmpty(deptId)) {
+            wrapper.apply("(dept_id = " + deptId + " OR dept_id IN ( SELECT t.id FROM sys_dept t WHERE FIND_IN_SET ( " + deptId + " , ancestors ) ))");
+        }
+        if (StrUtil.isNotEmpty(beginTime)) {
+            wrapper.gt(SysUser::getCreateTime, beginTime);
+        }
+
+        if (StrUtil.isNotEmpty(endTime)) {
+            wrapper.lt(SysUser::getCreateTime, endTime);
+        }
+        if (StrUtil.isNotEmpty(status)) {
+            wrapper.eq(SysUser::getStatus, status);
+        }
+        wrapper.apply(params.get(CommonConstant.SQL_FILTER) != null, (String) params.get(CommonConstant.SQL_FILTER));
         return page(new Page<>(pageNum, pageSize), wrapper);
     }
 
     @Override
     public int updateUserAndRole(SysUser user) {
         //先删除用户与角色关系
-        sysUserRoleService.delAndCreateRole(user.getId(), user.getRoleIdList());
+        sysUserRoleService.delAndCreateRole(user.getId(), user.getRoleIds());
         // 更新用户
         return this.baseMapper.updateById(user);
     }
@@ -134,11 +167,24 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
     }
 
     @Override
-    public int updateStatus(Long id, Integer status) {
+    public int updateStatus(Long id, String status) {
         SysUser user = new SysUser();
         user.setId(id);
         user.setStatus(status);
         return this.baseMapper.updateById(user);
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int insertUserAndRole(SysUser user) {
+        int result = this.baseMapper.insert(user);
+        //保存用户与角色关系
+        sysUserRoleService.insertUserAndUserRole(user.getId(), user.getRoleIds());
+        return result;
+    }
+
+    @Override
+    public int deleteByIds(Long[] ids) {
+        return this.baseMapper.deleteBatchIds(Arrays.asList(ids));
+    }
 }

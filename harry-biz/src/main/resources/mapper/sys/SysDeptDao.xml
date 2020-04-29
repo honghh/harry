@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.harry.sys.dao.SysDeptDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.harry.sys.entity.SysDept" id="sysDeptMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="pid" column="pid"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="valid" column="valid"/>
+    </resultMap>
+    <select id="selectDeptListByRoleId" resultType="java.lang.Integer">
+        select d.id, d.pid
+        from sys_dept d
+            left join sys_role_dept rd on d.id = rd.dept_id
+        where rd.role_id = #{roleId}
+            and d.id not in (select d.pid from sys_dept d inner join sys_role_dept rd on d.id = rd.dept_id and rd.role_id = #{roleId})
+        order by d.pid, d.sort
+    </select>
+    <select id="queryDeptIdList" resultType="java.lang.Long">
+          select id from sys_dept where pid = #{parentId} and delete_status = 0
+    </select>
+
+
+</mapper>

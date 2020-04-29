@@ -18,7 +18,20 @@ public enum SysExceptionEnum implements IErrorCode {
 
     /******** 微信小程序登陆 100101 *********/
     AUTHORIZATION_WX_FAILURE(100101, "授权失败"),
-    ;
+
+
+    /******** 菜单管理 menu 100200 *********/
+    MENU_SUBMENU_EXISTS(100200, "存在子菜单,不允许删除"),
+    MENU_IS_ASSIGNED(100201, "菜单已分配,不允许删除"),
+
+    /******** 字典管理 dict 100300 *********/
+    DICT_TYPE_EXISTS(100300, "字典类型已存在,不允许删除"),
+
+
+    /******** 部门管理 dept 100400 *********/
+    DEPT_NOT_EXISTS(100400, "部门已停用或不存在，不允许新增"),
+            ;
+
 
     private long code;
     private String msg;

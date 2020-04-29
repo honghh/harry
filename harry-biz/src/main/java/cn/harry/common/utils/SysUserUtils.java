@@ -2,11 +2,8 @@ package cn.harry.common.utils;
 
 import cn.harry.sys.entity.SysUser;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import java.util.Collection;
 
 /**
  * ClassName: BeanUtils
@@ -26,17 +23,6 @@ public class SysUserUtils {
             return memberDetails.getSysUser();
         } catch (Exception e) {
             return new SysUser();
-        }
-    }
-
-    public static Collection<? extends GrantedAuthority> getAuthorities() {
-        try {
-            SecurityContext ctx = SecurityContextHolder.getContext();
-            Authentication auth = ctx.getAuthentication();
-            SysUserDetails memberDetails = (SysUserDetails) auth.getPrincipal();
-            return memberDetails.getAuthorities();
-        } catch (Exception e) {
-            return null;
         }
     }
 }

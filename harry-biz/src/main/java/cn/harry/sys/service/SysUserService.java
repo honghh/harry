@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import cn.harry.sys.entity.SysUser;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * 后台用户表
@@ -50,6 +51,7 @@ public interface SysUserService {
 
     /**
      * 修改指定用户信息
+     *
      * @param id
      * @param admin
      * @return
@@ -68,15 +70,14 @@ public interface SysUserService {
     /**
      * 分页获取数据
      *
-     * @param name
-     * @param pageSize
-     * @param pageNum
+     * @param params
      * @return
      */
-    IPage<SysUser> getPage(String name, Integer pageSize, Integer pageNum);
+    IPage<SysUser> getPage(Map<String, Object> params);
 
     /**
      * 更新用户以及权限
+     *
      * @param user
      * @return
      */
@@ -98,7 +99,23 @@ public interface SysUserService {
      * @param status
      * @return
      */
-    int updateStatus(Long id, Integer status);
+    int updateStatus(Long id, String status);
+
+    /**
+     * 创建用户及权限
+     *
+     * @param user
+     * @return
+     */
+    int insertUserAndRole(SysUser user);
+
+    /**
+     * 批量删除用户
+     *
+     * @param ids
+     * @return
+     */
+    int deleteByIds(Long[] ids);
 
 }
 

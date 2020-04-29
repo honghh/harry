@@ -1,20 +1,22 @@
 package cn.harry.controller.sys;
 
+import cn.harry.common.annotation.SysLog;
 import cn.harry.common.api.CommonResult;
-import cn.harry.common.exception.ApiException;
-import cn.harry.sys.enums.MenuTypeEnums;
-import cn.hutool.core.util.StrUtil;
-import cn.harry.common.constant.CommonConstant;
+import cn.harry.common.enums.BusinessType;
 import cn.harry.common.utils.SysUserUtils;
 import cn.harry.sys.entity.SysMenu;
 import cn.harry.sys.service.SysMenuService;
+import cn.harry.sys.vo.RouterVo;
+import cn.harry.sys.vo.TreeSelect;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ClassName: SysMenuController
@@ -31,127 +33,80 @@ public class SysMenuController {
     @Resource
     private SysMenuService sysMenuService;
 
-    @GetMapping("/nav")
-    @ApiOperation(value = "nav => 获取用户所拥有的菜单和权限", notes = "通过登陆用户的userId获取用户所拥有的菜单和权限")
-    public CommonResult nav() {
-        List<SysMenu> menuList = sysMenuService.listMenuByUserId(SysUserUtils.getSysUser().getId());
+    @ApiOperation("list => 获取菜单列表")
+    @GetMapping("list")
+    @PreAuthorize("@ss.hasPermi('system:menu:list')")
+    public CommonResult<List<SysMenu>> list(SysMenu menu) {
+        List<SysMenu> menus = sysMenuService.selectMenuList(menu, SysUserUtils.getSysUser().getId());
+        return CommonResult.success(menus);
+    }
+
+    @ApiOperation("{id} => 根据菜单ID获取详细信息")
+    @PreAuthorize("@ss.hasPermi('system:menu:query')")
+    @GetMapping("/{id}")
+    public CommonResult<SysMenu> info(@PathVariable("id") Long id) {
+        SysMenu menus = sysMenuService.getById(id);
+        return CommonResult.success(menus);
+    }
+
+    @ApiOperation("getRouters => 获取路由信息")
+    @GetMapping("getRouters")
+    public CommonResult<List<RouterVo>> getRouters() {
+        List<SysMenu> menus = sysMenuService.selectMenuTreeByUserId(SysUserUtils.getSysUser().getId());
+        return CommonResult.success(sysMenuService.buildMenus(menus));
+    }
+
+    @ApiOperation("treeselect => 获取菜单下拉树列表")
+    @GetMapping(value = "/treeselect")
+    public CommonResult<List<TreeSelect>> treeselect(SysMenu menu) {
+        List<SysMenu> menus = sysMenuService.selectMenuList(menu, SysUserUtils.getSysUser().getId());
+        return CommonResult.success(sysMenuService.buildMenuTreeSelect(menus));
+    }
+
+    @GetMapping(value = "/roleMenuTreeselect/{roleId}")
+    @ApiOperation("roleMenuTreeselect/{roleId} => 加载对应角色菜单列表树")
+    public CommonResult<Map<String, Object>> roleMenuTreeselect(@PathVariable("roleId") Long roleId) {
+        List<SysMenu> menus = sysMenuService.selectMenuList(SysUserUtils.getSysUser().getId());
         Map<String, Object> map = new HashMap<>();
-        map.put("menuList", menuList);
+        map.put("checkedKeys", sysMenuService.selectMenuListByRoleId(roleId));
+        map.put("menus", sysMenuService.buildMenuTreeSelect(menus));
         return CommonResult.success(map);
     }
 
 
-    @ApiOperation("list => 所有菜单列表")
-    @GetMapping("/list")
-    public CommonResult<List<SysMenu>> list() {
-        List<SysMenu> menuList = sysMenuService.list();
-        return CommonResult.success(menuList);
-    }
-
-    /**
-     * 所有菜单列表(用于新建、修改角色时 获取菜单的信息)
-     */
-    @ApiOperation(value = "listSimpleMenuNoButton => 获取用户所拥有的菜单(不包括按钮)", notes = "通过登陆用户的userId获取用户所拥有的菜单和权限")
-    @GetMapping("/listSimpleMenuNoButton")
-    public CommonResult<List<SysMenu>> listSimpleMenuNoButton() {
-        List<SysMenu> sysMenuList = sysMenuService.listSimpleMenuNoButton();
-        return CommonResult.success(sysMenuList);
-    }
-
-    @ApiOperation("info/{id} => 菜单信息")
-    @GetMapping("/info/{id}")
-    public CommonResult<SysMenu> info(@PathVariable("id") Long id) {
-        SysMenu menu = sysMenuService.getById(id);
-        return CommonResult.success(menu);
-    }
-
-    @ApiOperation("delete/{id} => 删除指定菜单信息")
-    @DeleteMapping(value = "/delete/{id}")
-    public CommonResult delete(@PathVariable Long id) {
-        if (id <= CommonConstant.SYS_MENU_MAX_ID) {
-            return CommonResult.failed("系统菜单，不能删除");
-        }
-        //判断是否有子菜单或按钮
-        List<SysMenu> menuList = sysMenuService.listChildrenMenuByParentId(id);
-        if (menuList.size() > 0) {
-            return CommonResult.failed("请先删除子菜单或按钮");
-        }
-        boolean re = sysMenuService.deleteMenuAndRoleMenu(id);
-        if (re) {
-            return CommonResult.success(true);
+    @ApiOperation("create => 新增菜单")
+    @PreAuthorize("@ss.hasPermi('system:menu:add')")
+    @SysLog(title = "菜单管理", businessType = BusinessType.INSERT)
+    @PostMapping("/create")
+    public CommonResult<Integer> create(@RequestBody SysMenu menu) {
+        int count = sysMenuService.create(menu);
+        if (count > 0) {
+            return CommonResult.success(count);
         }
         return CommonResult.failed();
     }
 
-    /**
-     * 保存
-     */
-
-    @ApiOperation("create => 保存指定菜单信息")
-    @PostMapping(value = "/create")
-    public CommonResult save(@Valid @RequestBody SysMenu menu) {
-        //数据校验
-        verifyForm(menu);
-        sysMenuService.save(menu);
-        return CommonResult.success("");
+    @ApiOperation("update => 修改菜单")
+    @PreAuthorize("@ss.hasPermi('system:menu:edit')")
+    @SysLog(title = "菜单管理", businessType = BusinessType.UPDATE)
+    @PutMapping("/update/{id}")
+    public CommonResult<Integer> update(@PathVariable("id") Long id, @RequestBody SysMenu menu) {
+        int count = sysMenuService.update(id, menu);
+        if (count > 0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed();
     }
 
-    /**
-     * 修改
-     */
-
-    @ApiOperation("update/{id} => 修改指定菜单信息")
-    @PutMapping(value = "/update/{id}")
-    public CommonResult<String> update(@PathVariable Long id, @Valid @RequestBody SysMenu menu) {
-        //数据校验
-        verifyForm(menu);
-
-        if (menu.getType() == MenuTypeEnums.MENU.getValue()) {
-            if (StrUtil.isBlank(menu.getUri())) {
-                return CommonResult.validateFailed("菜单URL不能为空");
-            }
+    @ApiOperation("{id} => 删除菜单")
+    @PreAuthorize("@ss.hasPermi('system:menu:remove')")
+    @SysLog(title = "菜单管理", businessType = BusinessType.DELETE)
+    @DeleteMapping("/delete/{id}")
+    public CommonResult<Integer> delete(@PathVariable("id") Long id) {
+        int count = sysMenuService.deleteById(id);
+        if (count > 0) {
+            return CommonResult.success(count);
         }
-        menu.setId(id);
-        sysMenuService.updateById(menu);
-
-        return CommonResult.success("");
-    }
-
-    /**
-     * 验证参数是否正确
-     */
-    private void verifyForm(SysMenu menu) {
-
-        if (menu.getType() == MenuTypeEnums.MENU.getValue()) {
-            if (StrUtil.isBlank(menu.getUri())) {
-                throw new ApiException("菜单URL不能为空");
-            }
-        }
-        if (Objects.equals(menu.getId(), menu.getPid())) {
-            throw new ApiException("自己不能是自己的上级");
-        }
-
-        //上级菜单类型
-        int parentType = MenuTypeEnums.CATALOG.getValue();
-        if (menu.getPid() != 0) {
-            SysMenu parentMenu = sysMenuService.getById(menu.getPid());
-            parentType = parentMenu.getType();
-        }
-
-        //目录、菜单
-        if (menu.getType() == MenuTypeEnums.CATALOG.getValue() ||
-                menu.getType() == MenuTypeEnums.MENU.getValue()) {
-            if (parentType != MenuTypeEnums.CATALOG.getValue()) {
-                throw new ApiException("上级菜单只能为目录类型");
-            }
-            return;
-        }
-
-        //按钮
-        if (menu.getType() == MenuTypeEnums.BUTTON.getValue()) {
-            if (parentType != MenuTypeEnums.MENU.getValue()) {
-                throw new ApiException("上级菜单只能为菜单类型");
-            }
-        }
+        return CommonResult.failed();
     }
 }

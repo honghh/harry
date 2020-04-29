@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -63,7 +64,17 @@ public class SysMenu implements Serializable {
      * 启用状态；0->禁用；1->启用
      */
     @ApiModelProperty(value = "启用状态；0->禁用；1->启用")
-    private Integer status;
+    private String status;
+    /**
+     * 路由地址
+     */
+    @ApiModelProperty(value = "路由地址")
+    private String path;
+    /**
+     * 是否为外链（1是 0否）
+     */
+    @ApiModelProperty(value = "是否为外链（1是 0否）")
+    private String outerLink;
     /**
      * 创建时间
      */
@@ -78,4 +89,7 @@ public class SysMenu implements Serializable {
 
     @TableField(exist = false)
     private List<?> list;
+
+    @TableField(exist = false)
+    private List<SysMenu> children = new ArrayList<>();
 }

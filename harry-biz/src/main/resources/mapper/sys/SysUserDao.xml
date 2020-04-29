@@ -6,12 +6,15 @@
 	<!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="cn.harry.sys.entity.SysUser" id="sysAdminMap">
         <result property="id" column="id"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="deptName" column="dept_name"/>
         <result property="username" column="username"/>
         <result property="password" column="password"/>
         <result property="icon" column="icon"/>
         <result property="email" column="email"/>
         <result property="nickName" column="nick_name"/>
         <result property="note" column="note"/>
+        <result property="loginIp" column="login_ip"/>
         <result property="loginTime" column="login_time"/>
         <result property="status" column="status"/>
         <result property="createTime" column="create_time"/>

@@ -13,5 +13,11 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SysUserLoginLogDao extends BaseMapper<SysUserLoginLog> {
-	
+
+    /**
+     * 清空
+     *
+     * @return
+     */
+    int clean();
 }

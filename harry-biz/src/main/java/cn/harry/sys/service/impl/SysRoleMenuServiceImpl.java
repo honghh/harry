@@ -44,4 +44,15 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuDao, SysRoleM
         }
         return null;
     }
+
+    @Override
+    public int checkMenuExistRole(Long menuId) {
+        return count(new LambdaQueryWrapper<SysRoleMenu>()
+                .eq(SysRoleMenu::getMenuId, menuId));
+    }
+
+    @Override
+    public void insertRoleAndRoleMenu(Long id, List<Long> menuIds) {
+        this.baseMapper.insertRoleAndRoleMenu(id,menuIds);
+    }
 }

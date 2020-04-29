@@ -1,10 +1,9 @@
 package cn.harry.sys.entity;
 
 import cn.hutool.core.date.DatePattern;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -29,25 +28,32 @@ public class SysConfig implements Serializable {
     @TableId
     private Long id;
     /**
-     * type 如：order_cancel_reason
+     * 系统内置: Y N
      */
-    @ApiModelProperty(value = "type 如：order_cancel_reason")
+    @ApiModelProperty(value = "系统内置: Y N ")
     private String paramType;
     /**
      * key
      */
     @ApiModelProperty(value = "key")
+    @TableField(condition = SqlCondition.LIKE)
     private String paramKey;
+    /**
+     * value
+     */
+    @ApiModelProperty(value = "value")
+    private String paramValue;
     /**
      * name
      */
     @ApiModelProperty(value = "name")
+    @TableField(condition = SqlCondition.LIKE)
     private String paramName;
     /**
      * 状态   0：禁用   1：启用
      */
     @ApiModelProperty(value = "状态   0：禁用   1：启用")
-    private Integer status;
+    private String status;
     /**
      * 备注
      */
@@ -72,4 +78,14 @@ public class SysConfig implements Serializable {
     @TableLogic
     private Integer valid;
 
+
+    /** 开始时间 */
+    @JsonIgnore
+    @TableField(exist = false)
+    private String beginTime;
+
+    /** 结束时间 */
+    @JsonIgnore
+    @TableField(exist = false)
+    private String endTime;
 }

@@ -1,5 +1,8 @@
 package cn.harry.sys.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * 菜单类型
  *
@@ -7,6 +10,8 @@ package cn.harry.sys.enums;
  * Date 2019-10-12 10:55:44
  * Copyright (C) www.honghh.top
  */
+@Getter
+@AllArgsConstructor
 public enum MenuTypeEnums {
     /**
      * 目录
@@ -22,12 +27,4 @@ public enum MenuTypeEnums {
     BUTTON(2);
 
     private int value;
-
-    MenuTypeEnums(int value) {
-        this.value = value;
-    }
-
-    public int getValue() {
-        return value;
-    }
 }

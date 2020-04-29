@@ -16,4 +16,15 @@ public class SysUserLoginParam {
     private String username;
     @ApiModelProperty(value = "密码", required = true)
     private String password;
+    /**
+     * 验证码
+     */
+    @ApiModelProperty(value = "验证码", required = true)
+    private String code;
+
+    /**
+     * 唯一标识
+     */
+    @ApiModelProperty(value = "唯一标识", required = true)
+    private String uuid = "";
 }

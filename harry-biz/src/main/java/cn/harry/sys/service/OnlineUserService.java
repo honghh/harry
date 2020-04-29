@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author honghh
  * Date 2020/03/07 16:34
- * Copyright (C) 洛阳乾发供应链管理有限公司
+ * Copyright (C) www.honghh.top
  */
 public interface OnlineUserService {
     /**

@@ -1,10 +1,9 @@
 package cn.harry.sys.entity;
 
 import cn.hutool.core.date.DatePattern;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -43,6 +42,7 @@ public class SysUserLoginLog implements Serializable {
      * 用户名
      */
     @ApiModelProperty(value = "用户名")
+    @TableField(condition = SqlCondition.LIKE)
     private String username;
     /**
      * 用户昵称
@@ -59,6 +59,7 @@ public class SysUserLoginLog implements Serializable {
      * 登陆地点
      */
     @ApiModelProperty(value = "登陆地点")
+    @TableField(condition = SqlCondition.LIKE)
     private String address;
     /**
      * 浏览器登录类型
@@ -83,6 +84,16 @@ public class SysUserLoginLog implements Serializable {
     @ApiModelProperty(value = "有效状态：0->无效；1->有效")
     @TableLogic
     private Integer valid;
+
+    /** 开始时间 */
+    @JsonIgnore
+    @TableField(exist = false)
+    private String beginTime;
+
+    /** 结束时间 */
+    @JsonIgnore
+    @TableField(exist = false)
+    private String endTime;
 
     public SysUserLoginLog(String keyword, Long userId, String username, String nickName, String ip, String address, String userAgent, Date createTime, Date modifyTime) {
         this.keyword = keyword;

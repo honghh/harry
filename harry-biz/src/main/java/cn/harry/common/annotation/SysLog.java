@@ -1,5 +1,7 @@
 package cn.harry.common.annotation;
 
+import cn.harry.common.enums.BusinessType;
+
 import java.lang.annotation.*;
 
 /**
@@ -14,6 +16,18 @@ import java.lang.annotation.*;
 @Documented
 public @interface SysLog {
 
-    String module() default "操作模块";
-    String remark() default "操作日志";
+    /**
+     * 模块
+     */
+     String title() default "";
+
+    /**
+     * 功能
+     */
+     BusinessType businessType() default BusinessType.OTHER;
+
+    /**
+     * 是否保存请求的参数
+     */
+     boolean isSaveRequestData() default true;
 }

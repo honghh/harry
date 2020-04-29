@@ -1,6 +1,8 @@
 package cn.harry.sys.service;
 
 import cn.harry.sys.entity.SysMenu;
+import cn.harry.sys.vo.RouterVo;
+import cn.harry.sys.vo.TreeSelect;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -13,45 +15,88 @@ import java.util.List;
  * Copyright (C) www.honghh.top
  */
 public interface SysMenuService extends IService<SysMenu> {
-    /**
-     * 根据一级菜单id 获取二级菜单
-     *
-     * @param pid 一级菜单id
-     * @return 二级菜单列表
-     */
-    List<SysMenu> listChildrenMenuByParentId(Long pid);
 
     /**
-     * 删除 菜单，与角色菜单之间的关系
+     * 获取用户所有权限 包括：根/菜单/按钮
      *
-     * @param menuId
+     * @param userId
      * @return
      */
-    boolean deleteMenuAndRoleMenu(Long menuId);
+    List<SysMenu> selectMenuList(Long userId);
 
     /**
-     * 获取简单的menu tree 用于在 ele-ui tree中显示，根据orderNum排序
+     * 根据用户ID查询菜单树信息
      *
-     * @return ztreeDto列表
+     * @param userId
+     * @return
      */
-    List<SysMenu> listSimpleMenuNoButton();
+    List<SysMenu> selectMenuTreeByUserId(Long userId);
+
+    /**
+     * 构建前端路由所需要的菜单
+     *
+     * @param menus 菜单列表
+     * @return 路由列表
+     */
+    List<RouterVo> buildMenus(List<SysMenu> menus);
 
 
     /**
-     * 获取用户菜单列表
+     * 根据用户查询系统菜单列表
      *
-     * @param userId 用户id
+     * @param menu   菜单信息
+     * @param userId 用户ID
      * @return 菜单列表
      */
-    List<SysMenu> listMenuByUserId(Long userId);
+    List<SysMenu> selectMenuList(SysMenu menu, Long userId);
 
     /**
-     * 获取用户所有权限（包括角色权限和+-权限）
+     * 根据角色ID查询菜单树信息
+     *
+     * @param roleId 角色ID
+     * @return 选中菜单列表
+     */
+    List<Integer> selectMenuListByRoleId(Long roleId);
+
+    /**
+     * 构建前端所需要下拉树结构
+     *
+     * @param menus 菜单列表
+     * @return 下拉树结构列表
+     */
+    List<TreeSelect> buildMenuTreeSelect(List<SysMenu> menus);
+
+    /**
+     * 构建前端所需要树结构
+     *
+     * @param menus 菜单列表
+     * @return 树结构列表
+     */
+    List<SysMenu> buildMenuTree(List<SysMenu> menus);
+
+    /**
+     * 新增保存菜单信息
+     *
+     * @param menu
+     * @return
+     */
+    int create(SysMenu menu);
+
+    /**
+     * 修改保存菜单信息
+     *
+     * @param id
+     * @param menu
+     * @return
+     */
+    int update(Long id, SysMenu menu);
+
+    /**
+     * 删除菜单管理信息
      *
      * @param id
      * @return
      */
-    List<SysMenu> getPermissionList(Long id);
-
+    int deleteById(Long id);
 }
 

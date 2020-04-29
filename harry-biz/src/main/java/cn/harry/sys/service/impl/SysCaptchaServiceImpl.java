@@ -6,6 +6,7 @@ import cn.harry.sys.dao.SysCaptchaDao;
 import cn.harry.sys.entity.SysCaptcha;
 import cn.harry.sys.service.SysCaptchaService;
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.code.kaptcha.Producer;
 import org.apache.commons.lang.StringUtils;
@@ -46,7 +47,8 @@ public class SysCaptchaServiceImpl extends ServiceImpl<SysCaptchaDao, SysCaptcha
 
     @Override
     public boolean validate(String uuid, String code) {
-        SysCaptcha captchaEntity = getById(uuid);
+        SysCaptcha captchaEntity = this.baseMapper.selectOne(new LambdaQueryWrapper<SysCaptcha>()
+                .eq(SysCaptcha::getUuid, uuid));
         if (captchaEntity == null) {
             return false;
         }

@@ -45,8 +45,13 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleDao, SysUserR
         remove(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserId, userId));
         if (CollUtil.isNotEmpty(roleIdList)) {
             //保存用户与角色关系
-           insertUserAndUserRole(userId, roleIdList);
+            insertUserAndUserRole(userId, roleIdList);
         }
+    }
+
+    @Override
+    public List<Integer> listDataScopesByUserId(Long userId) {
+        return this.baseMapper.listDataScopesByUserId(userId);
     }
 
 }

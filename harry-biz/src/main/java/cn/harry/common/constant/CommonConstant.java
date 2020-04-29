@@ -27,7 +27,7 @@ public class CommonConstant {
     /**
      * 超级管理员ID
      */
-    public static final int SUPER_ADMIN_ID = 1;
+    public static final long SUPER_ADMIN_ID = 1L;
 
     /**
      * 系统菜单最大id
@@ -63,4 +63,6 @@ public class CommonConstant {
     public static final String WEIXIN_PAY_PREFIX = "WX";
 
 
+    /** 数据权限过滤 */
+    public static final String SQL_FILTER = "sql_filter";
 }

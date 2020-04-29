@@ -1,4 +1,4 @@
-package cn.harry.controller.sys;
+package cn.harry.controller.monitor;
 
 import cn.harry.common.api.CommonPage;
 import cn.harry.common.api.CommonResult;
@@ -23,8 +23,8 @@ import java.util.List;
  * Copyright (C) www.honghh.top
  */
 @RestController
-@Api(tags = "Sys-online => 在线用户管理")
-@RequestMapping("/sys/online")
+@Api(tags = "Monitor-online => 在线用户管理")
+@RequestMapping("/monitor/online")
 public class SysOnlineUserController {
     @Resource
     private OnlineUserService onlineUserService;
