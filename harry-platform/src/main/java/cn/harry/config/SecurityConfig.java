@@ -75,12 +75,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.js",
                         "/swagger-resources/**",
                         "/v2/api-docs/**",
-                        "/v2/api-docs-ext/**",
-                        "/druid/**"
+                        "/v2/api-docs-ext/**"
                 ).permitAll()
 
                 // 对登录注册要允许匿名访问
-                .antMatchers("/admin/login", "/captchaImage").permitAll()
+                .antMatchers("/admin/login", "/captchaImage").anonymous()
+                // Druid Monitor  允许匿名访问
+                .antMatchers("/druid/**").anonymous()
+
                 //跨域请求会先进行一次options请求
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
 
