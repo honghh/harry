@@ -1,7 +1,10 @@
 package cn.harry.config;
 
+import cn.harry.common.interceptor.TokenInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
+
+import javax.annotation.Resource;
 
 /**
  * 全局跨域配置
@@ -13,6 +16,8 @@ import org.springframework.web.servlet.config.annotation.*;
 @Configuration
 @EnableWebMvc
 public class GlobalWebConfig implements WebMvcConfigurer {
+    @Resource
+    private TokenInterceptor vueViewInterceptor;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -26,6 +31,18 @@ public class GlobalWebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(vueViewInterceptor)
+                .addPathPatterns("/**")
+                // 排除配置
+                .excludePathPatterns(
+                        "/swagger-resources/**",
+                        "*.js",
+                        "/**/*.js",
+                        "*.css",
+                        "/**/*.css",
+                        "*.html",
+                        "/v2/*",
+                        "/**/*.html");
 
     }
 

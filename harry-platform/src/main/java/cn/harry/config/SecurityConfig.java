@@ -79,13 +79,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 ).permitAll()
 
                 // 对登录注册要允许匿名访问
-                .antMatchers("/admin/login", "/captchaImage").anonymous()
+                .antMatchers("/admin/login", "/captchaImage").permitAll()
                 // Druid Monitor  允许匿名访问
                 .antMatchers("/druid/**").anonymous()
-
                 //跨域请求会先进行一次options请求
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-
+                .antMatchers("/**").permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated()
                 .and()
