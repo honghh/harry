@@ -35,6 +35,8 @@ public class GlobalWebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 // 排除配置
                 .excludePathPatterns(
+                        "/admin/login",
+                        "/captchaImage",
                         "/swagger-resources/**",
                         "*.js",
                         "/**/*.js",
