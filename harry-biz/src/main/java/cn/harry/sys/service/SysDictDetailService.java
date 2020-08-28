@@ -73,5 +73,12 @@ public interface SysDictDetailService {
      * @return
      */
     int deleteByIds(Long[] ids);
+
+    /**
+     * 导出
+     * @param dictDetail
+     * @return
+     */
+    List<SysDictDetail> getExportList(SysDictDetail dictDetail);
 }
 

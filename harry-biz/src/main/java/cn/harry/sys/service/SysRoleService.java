@@ -81,5 +81,12 @@ public interface SysRoleService extends IService<SysRole> {
      * @return
      */
     List<SysRole> getListAll();
+
+    /**
+     * 导出
+     * @param role
+     * @return
+     */
+    List<SysRole> getExportList(SysRole role);
 }
 

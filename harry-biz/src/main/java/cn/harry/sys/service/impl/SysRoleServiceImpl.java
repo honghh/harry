@@ -118,6 +118,20 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRole> impleme
                 .eq(SysRole::getStatus, StatusEnums.ENABLE.getKey()));
     }
 
+    @Override
+    public List<SysRole> getExportList(SysRole sysRole) {
+        LambdaQueryWrapper<SysRole> wrapper = new LambdaQueryWrapper<>(sysRole);
+
+        if (StrUtil.isNotEmpty(sysRole.getBeginTime())) {
+            wrapper.gt(SysRole::getCreateTime, sysRole.getBeginTime());
+        }
+
+        if (StrUtil.isNotEmpty(sysRole.getEndTime())) {
+            wrapper.lt(SysRole::getCreateTime, sysRole.getEndTime());
+        }
+        return list(wrapper);
+    }
+
     /**
      * 新增角色部门信息(数据权限)
      *

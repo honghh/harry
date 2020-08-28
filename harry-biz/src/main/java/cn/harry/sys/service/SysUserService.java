@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import cn.harry.sys.entity.SysUser;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -117,5 +118,11 @@ public interface SysUserService {
      */
     int deleteByIds(Long[] ids);
 
+    /**
+     * 导出
+     * @param params
+     * @return
+     */
+    List<SysUser> getExportList(Map<String, Object> params);
 }
 

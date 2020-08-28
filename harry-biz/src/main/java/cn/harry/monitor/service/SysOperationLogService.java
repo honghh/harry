@@ -3,6 +3,8 @@ package cn.harry.monitor.service;
 import cn.harry.monitor.entity.SysOperationLog;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
+import java.util.List;
+
 /**
  * ClassName: SysOperationLogService
  * Description:
@@ -43,4 +45,12 @@ public interface SysOperationLogService {
      * @return
      */
     void clean();
+
+    /**
+     * 导出（不分页）
+     *
+     * @param sysOperationLog
+     * @return
+     */
+    List<SysOperationLog> getExportList(SysOperationLog sysOperationLog);
 }

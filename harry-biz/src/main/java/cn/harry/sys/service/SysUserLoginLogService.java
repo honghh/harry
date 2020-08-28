@@ -3,6 +3,8 @@ package cn.harry.sys.service;
 import cn.harry.sys.entity.SysUserLoginLog;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
+import java.util.List;
+
 /**
  * 后台用户登录日志表
  *
@@ -51,5 +53,13 @@ public interface SysUserLoginLogService {
      * @return
      */
     int clean();
+
+    /**
+     * 导出
+     *
+     * @param loginLog
+     * @return
+     */
+    List<SysUserLoginLog> getExportList(SysUserLoginLog loginLog);
 }
 

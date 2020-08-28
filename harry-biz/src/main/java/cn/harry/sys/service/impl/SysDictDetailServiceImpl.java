@@ -64,4 +64,9 @@ public class SysDictDetailServiceImpl extends ServiceImpl<SysDictDetailDao, SysD
     public int deleteByIds(Long[] ids) {
         return this.baseMapper.deleteBatchIds(Arrays.asList(ids));
     }
+
+    @Override
+    public List<SysDictDetail> getExportList(SysDictDetail dictDetail) {
+        return list(new LambdaQueryWrapper<>(dictDetail));
+    }
 }

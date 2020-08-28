@@ -6,6 +6,7 @@ import cn.harry.common.api.CommonResult;
 import cn.harry.common.enums.BusinessType;
 import cn.harry.sys.entity.SysConfig;
 import cn.harry.sys.service.SysConfigService;
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,6 +14,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * ClassName: SysConfigController
@@ -92,6 +96,22 @@ public class SysConfigController {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
+    }
+
+    @ApiOperation("export => 按条件导出（不分页）")
+    @PreAuthorize("@ss.hasPermi('system:config:export')")
+    @SysLog(title = "参数管理", businessType = BusinessType.EXPORT)
+    @GetMapping("/export")
+    public CommonResult export(HttpServletResponse response, SysConfig sysConfig) {
+        List<SysConfig> list = sysConfigService.getExportList(sysConfig);
+        try {
+            EasyExcel.write(response.getOutputStream(), SysConfig.class).sheet("参数管理").doWrite(list);
+            return CommonResult.success();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return CommonResult.failed();
+
     }
 }
 

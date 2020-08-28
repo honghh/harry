@@ -3,6 +3,7 @@ package cn.harry.monitor.service.impl;
 import cn.harry.monitor.dao.SysOperationLogDao;
 import cn.harry.monitor.entity.SysOperationLog;
 import cn.harry.monitor.service.SysOperationLogService;
+import cn.harry.sys.entity.SysDict;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * ClassName: SysOperationLogServiceImpl
@@ -49,5 +51,18 @@ public class SysOperationLogServiceImpl extends ServiceImpl<SysOperationLogDao, 
     @Override
     public void clean() {
         this.baseMapper.clean();
+    }
+
+    @Override
+    public List<SysOperationLog> getExportList(SysOperationLog sysOperationLog) {
+        LambdaQueryWrapper<SysOperationLog> wrapper = new LambdaQueryWrapper<>(sysOperationLog);
+        if (StrUtil.isNotEmpty(sysOperationLog.getBeginTime())) {
+            wrapper.gt(SysOperationLog::getCreateTime, sysOperationLog.getBeginTime());
+        }
+
+        if (StrUtil.isNotEmpty(sysOperationLog.getEndTime())) {
+            wrapper.lt(SysOperationLog::getCreateTime, sysOperationLog.getEndTime());
+        }
+        return list(wrapper);
     }
 }

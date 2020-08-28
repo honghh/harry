@@ -6,6 +6,7 @@ import cn.harry.common.api.CommonResult;
 import cn.harry.common.enums.BusinessType;
 import cn.harry.sys.entity.SysRole;
 import cn.harry.sys.service.SysRoleService;
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,6 +14,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -111,5 +114,22 @@ public class SysRoleController {
     @PutMapping("/changeStatus")
     public CommonResult<Integer> changeStatus(@RequestBody SysRole role) {
         return CommonResult.success(sysRoleService.updateRoleStatus(role));
+    }
+
+
+    @ApiOperation("export => 按条件导出（不分页）")
+    @PreAuthorize("@ss.hasPermi('system:role:export')")
+    @SysLog(title = "角色管理", businessType = BusinessType.EXPORT)
+    @GetMapping("/export")
+    public CommonResult export(HttpServletResponse response, SysRole role) {
+        List<SysRole> list = sysRoleService.getExportList(role);
+        try {
+            EasyExcel.write(response.getOutputStream(), SysRole.class).sheet("角色管理").doWrite(list);
+            return CommonResult.success();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return CommonResult.failed();
+
     }
 }

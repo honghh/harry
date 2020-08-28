@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -70,5 +71,19 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfig> i
     @Override
     public int deleteByIds(Long[] ids) {
         return this.baseMapper.deleteBatchIds(Arrays.asList(ids));
+    }
+
+    @Override
+    public List<SysConfig> getExportList(SysConfig sysConfig) {
+        LambdaQueryWrapper<SysConfig> wrapper = new LambdaQueryWrapper<>(sysConfig);
+
+        if (StrUtil.isNotEmpty(sysConfig.getBeginTime())) {
+            wrapper.gt(SysConfig::getCreateTime, sysConfig.getBeginTime());
+        }
+
+        if (StrUtil.isNotEmpty(sysConfig.getEndTime())) {
+            wrapper.lt(SysConfig::getCreateTime, sysConfig.getEndTime());
+        }
+        return list(wrapper);
     }
 }

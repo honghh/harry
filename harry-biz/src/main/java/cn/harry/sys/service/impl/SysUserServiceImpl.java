@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -186,5 +187,39 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
     @Override
     public int deleteByIds(Long[] ids) {
         return this.baseMapper.deleteBatchIds(Arrays.asList(ids));
+    }
+
+    @Override
+    public List<SysUser> getExportList(Map<String, Object> params) {
+
+        String username = (String) params.get("username");
+        String phone = (String) params.get("phone");
+        String deptId = (String) params.get("deptId");
+        String beginTime = (String) params.get("beginTime");
+        String endTime = (String) params.get("endTime");
+        String status = (String) params.get("status");
+
+        LambdaQueryWrapper<SysUser> wrapper = new LambdaQueryWrapper<>();
+        if (StrUtil.isNotEmpty(username)) {
+            wrapper.like(SysUser::getUsername, username);
+        }
+        if (StrUtil.isNotEmpty(phone)) {
+            wrapper.like(SysUser::getPhone, phone);
+        }
+        if (StrUtil.isNotEmpty(deptId)) {
+            wrapper.apply("(dept_id = " + deptId + " OR dept_id IN ( SELECT t.id FROM sys_dept t WHERE FIND_IN_SET ( " + deptId + " , ancestors ) ))");
+        }
+        if (StrUtil.isNotEmpty(beginTime)) {
+            wrapper.gt(SysUser::getCreateTime, beginTime);
+        }
+
+        if (StrUtil.isNotEmpty(endTime)) {
+            wrapper.lt(SysUser::getCreateTime, endTime);
+        }
+        if (StrUtil.isNotEmpty(status)) {
+            wrapper.eq(SysUser::getStatus, status);
+        }
+        wrapper.apply(params.get(CommonConstant.SQL_FILTER) != null, (String) params.get(CommonConstant.SQL_FILTER));
+        return list(wrapper);
     }
 }

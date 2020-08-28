@@ -6,12 +6,16 @@ import cn.harry.common.api.CommonResult;
 import cn.harry.common.enums.BusinessType;
 import cn.harry.sys.entity.SysUserLoginLog;
 import cn.harry.sys.service.SysUserLoginLogService;
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * ClassName: SysLoginLogController
@@ -55,5 +59,21 @@ public class SysLoginLogController {
     public CommonResult<Integer> clean() {
         sysUserLoginLogService.clean();
         return CommonResult.success();
+    }
+
+
+    @ApiOperation("export => 按条件导出（不分页）")
+    @SysLog(title = "登陆日志", businessType = BusinessType.EXPORT)
+    @GetMapping("/export")
+    public CommonResult export(HttpServletResponse response, SysUserLoginLog loginLog) {
+        List<SysUserLoginLog> list = sysUserLoginLogService.getExportList(loginLog);
+        try {
+            EasyExcel.write(response.getOutputStream(), SysUserLoginLog.class).sheet("登陆日志").doWrite(list);
+            return CommonResult.success();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return CommonResult.failed();
+
     }
 }

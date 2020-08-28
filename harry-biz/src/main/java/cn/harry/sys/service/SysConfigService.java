@@ -3,6 +3,8 @@ package cn.harry.sys.service;
 import cn.harry.sys.entity.SysConfig;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
+import java.util.List;
+
 /**
  * 系统配置信息表/枚举值表
  *
@@ -29,6 +31,7 @@ public interface SysConfigService {
      * @return
      */
     SysConfig selectById(Long id);
+
     /**
      * 新建配置参数
      *
@@ -71,5 +74,12 @@ public interface SysConfigService {
      */
     int deleteByIds(Long[] ids);
 
+    /**
+     * 导出
+     *
+     * @param sysConfig
+     * @return
+     */
+    List<SysConfig> getExportList(SysConfig sysConfig);
 }
 

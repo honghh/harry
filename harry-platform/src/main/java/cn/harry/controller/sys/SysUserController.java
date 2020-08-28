@@ -8,6 +8,7 @@ import cn.harry.sys.entity.SysUser;
 import cn.harry.sys.service.SysUserRoleService;
 import cn.harry.sys.service.SysUserService;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -160,6 +163,30 @@ public class SysUserController {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
+    }
+
+
+    @ApiOperation("export => 按条件导出（不分页）")
+    @PreAuthorize("@ss.hasPermi('system:user:export')")
+    @SysLog(title = "用户管理", businessType = BusinessType.EXPORT)
+    @GetMapping("/export")
+    public CommonResult export(HttpServletResponse response,@RequestParam Map<String, Object> params) {
+        List<SysUser> list = sysUserService.getExportList(params);
+        try {
+            EasyExcel.write(response.getOutputStream(), SysUser.class).sheet("用户管理").doWrite(list);
+            return CommonResult.success();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return CommonResult.failed();
+
+    }
+
+    @ApiOperation("importTemplate => 下载模板")
+    @SysLog(title = "用户管理", businessType = BusinessType.EXPORT)
+    @GetMapping("/importTemplate")
+    public void importTemplate(HttpServletResponse response) throws IOException {
+        EasyExcel.write(response.getOutputStream(), SysUser.class).sheet("用户管理").doWrite(null);
     }
 }
 
