@@ -6,6 +6,7 @@ import cn.harry.common.api.CommonResult;
 import cn.harry.common.enums.BusinessType;
 import cn.harry.sys.entity.SysDict;
 import cn.harry.sys.service.SysDictService;
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,6 +14,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 
 
 /**
@@ -93,6 +97,23 @@ public class SysDictController {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
+    }
+
+
+    @ApiOperation("export => 按条件导出（不分页）")
+    @SysLog(title = "字典数据", businessType = BusinessType.EXPORT)
+    @PreAuthorize("@ss.hasPermi('system:dict:export')")
+    @GetMapping("/export")
+    public CommonResult export(HttpServletResponse response, SysDict sysDict) {
+        List<SysDict> list = sysDictService.getExportList(sysDict);
+        try {
+            EasyExcel.write(response.getOutputStream(), SysDict.class).sheet("字典数据").doWrite(list);
+            return CommonResult.success();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return CommonResult.failed();
+
     }
 
 }

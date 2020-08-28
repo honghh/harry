@@ -84,8 +84,7 @@ public class TokenInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        long startTime, endTime;
-        Map<String, String[]> params = new HashMap<String, String[]>(request.getParameterMap());
+        Map<String, String[]> params = new HashMap<>(request.getParameterMap());
 
         StringBuffer sbParams = new StringBuffer();
         sbParams.append("?");
@@ -101,9 +100,9 @@ public class TokenInterceptor implements HandlerInterceptor {
             sbParams = sbParams.delete(sbParams.length() - 1, sbParams.length());
         }
 
-        String fullUrl = ((HttpServletRequest) request).getRequestURL().toString();
-        String token = getToken((HttpServletRequest) request);
-        String requestType = ((HttpServletRequest) request).getMethod();
+        String fullUrl = request.getRequestURL().toString();
+        String token = getToken(request);
+        String requestType = request.getMethod();
 
         String uri = request.getRequestURI();
         IgnoreAuth annotation;

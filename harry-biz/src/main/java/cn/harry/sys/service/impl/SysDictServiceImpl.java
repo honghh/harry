@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 数据字典
@@ -67,6 +68,18 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictDao, SysDict> impleme
     @Override
     public int deleteByIds(Long[] ids) {
         return this.baseMapper.deleteBatchIds(Arrays.asList(ids));
+    }
+
+    @Override
+    public List<SysDict> getExportList(SysDict sysDict) {
+        LambdaQueryWrapper<SysDict> wrapper = new LambdaQueryWrapper<>(sysDict);
+        if (StrUtil.isNotEmpty(sysDict.getBeginTime())) {
+            wrapper.gt(SysDict::getCreateTime, sysDict.getBeginTime());
+        }
+        if (StrUtil.isNotEmpty(sysDict.getEndTime())) {
+            wrapper.lt(SysDict::getCreateTime, sysDict.getEndTime());
+        }
+        return list(wrapper);
     }
 
 

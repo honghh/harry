@@ -56,6 +56,7 @@ public class IpAddressUtil {
                 e.printStackTrace();
             }
         }
+        log.info("getIpAddr:{} ", ip);
         return ip;
     }
 
@@ -75,6 +76,7 @@ public class IpAddressUtil {
             DataBlock dataBlock;
             dataBlock = (DataBlock) method.invoke(searcher, ip);
             String address = dataBlock.getRegion().replace("0|", "");
+            log.info("IP转换后的地址：{}", address);
             char symbol = '|';
             if (address.charAt(address.length() - 1) == symbol) {
                 address = address.substring(0, address.length() - 1);
@@ -98,23 +100,6 @@ public class IpAddressUtil {
         UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
         Browser browser = userAgent.getBrowser();
         return browser.getName();
-    }
-
-    public static String getHostIp() {
-        try {
-            return InetAddress.getLocalHost().getHostAddress();
-        } catch (UnknownHostException e) {
-        }
-        return "127.0.0.1";
-    }
-
-    public static String getHostName() {
-        try {
-            return InetAddress.getLocalHost().getHostName();
-        } catch (UnknownHostException e) {
-
-        }
-        return "未知";
     }
 }
 

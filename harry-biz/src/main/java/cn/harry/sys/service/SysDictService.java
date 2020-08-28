@@ -3,6 +3,8 @@ package cn.harry.sys.service;
 import cn.harry.sys.entity.SysDict;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
+import java.util.List;
+
 /**
  * 数据字典
  *
@@ -63,5 +65,13 @@ public interface SysDictService {
      * @return
      */
     int deleteByIds(Long[] ids);
+
+    /**
+     * 获取导出的数据
+     *
+     * @param sysDict
+     * @return
+     */
+    List<SysDict> getExportList(SysDict sysDict);
 }
 
