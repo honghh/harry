@@ -30,7 +30,7 @@
         <swagger.version>2.9.2</swagger.version>
         <knife4j.version>2.0.4</knife4j.version>
         <joda.time.version>2.9.9</joda.time.version>
-        <fastjson.version>1.2.73</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <hutool.version>5.4.0</hutool.version>
         <lombok.version>1.18.12</lombok.version>
         <okhttp.version>4.8.1</okhttp.version>
